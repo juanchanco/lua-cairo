@@ -48,7 +48,7 @@ static const struct {
 
 
 int EXPORT
-luaopen_SDL(lua_State *L)
+luaopen_Cairo(lua_State *L)
 {
 	int i;
 

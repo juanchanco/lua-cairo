@@ -64,7 +64,7 @@ else ()
 endif ()
 
 include_directories(
-	${CAIRO_INCLUDE_DIR}
+	${CAIRO_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}
 	${LUA_INCLUDES}
 )
@@ -80,26 +80,26 @@ endif ()
 add_subdirectory(common)
 
 add_library(
-	CAIRO
+	Cairo
 	MODULE
 	${SOURCES}
 )
 
 set_target_properties(
-	CAIRO
+	Cairo
 	PROPERTIES
 	PREFIX ""
 )
 
 target_link_libraries(
-	CAIRO
+	Cairo
         common
 	${CAIRO_LIBRARIES}
 	${LUA_LIBRARIES}
 )
 
 install(
-	TARGETS CAIRO
+	TARGETS Cairo
 	DESTINATION ${LUA_LIBDIR}
 )
 
