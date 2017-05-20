@@ -8,86 +8,119 @@
 #include "common/table.h"
 
 const CommonEnum CairoFormat[] = {
-  { "Invalid", CAIRO_FORMAT_INVALID },
-  { "Argb32", CAIRO_FORMAT_ARGB32 },
-  { "Rgb24", CAIRO_FORMAT_RGB24 },
-  { "A8", CAIRO_FORMAT_A8 },
-  { "A1", CAIRO_FORMAT_A1 },
-  { "Rgb16_565", CAIRO_FORMAT_RGB16_565 },
-  { NULL, -1 }
+    { "Invalid", CAIRO_FORMAT_INVALID },
+    { "Argb32", CAIRO_FORMAT_ARGB32 },
+    { "Rgb24", CAIRO_FORMAT_RGB24 },
+    { "A8", CAIRO_FORMAT_A8 },
+    { "A1", CAIRO_FORMAT_A1 },
+    { "Rgb16_565", CAIRO_FORMAT_RGB16_565 },
+    { NULL, -1 }
 };
 
 static int _cairo_image_surface_create(lua_State* L) {
-  int format = commonGetEnum(L, 1);
-  int width = luaL_checkinteger(L, 2);
-  int height = luaL_checkinteger(L, 3);
-  cairo_surface_t* result = cairo_image_surface_create(format, width, height);
-  return commonPush(L, "p", "Surface", result);
+    int format = commonGetEnum(L, 1);
+    int width = luaL_checkinteger(L, 2);
+    int height = luaL_checkinteger(L, 3);
+    cairo_surface_t* result = cairo_image_surface_create(format, width, height);
+    return commonPush(L, "p", "Surface", result);
 }
 
 static const luaL_Reg functions[] = {
-  { "imageSurfaceCreate", _cairo_image_surface_create },
-  { NULL, NULL }
+    { "imageSurfaceCreate", _cairo_image_surface_create },
+    { NULL, NULL }
 };
 
 
 static const struct {
-	const luaL_Reg *functions;
+    const luaL_Reg *functions;
 } libraries[] = {
-	/*{ CpuFunctions					},*/
-	{ NULL						}
+    /*{ CpuFunctions					},*/
+    { NULL						}
 };
 
 static const struct {
-	const char	*name;
-	const CommonEnum *values;
+    const char	*name;
+    const CommonEnum *values;
 } enums[] = {
-	{ "cairoFormat", CairoFormat },
-	{ NULL, NULL }
+    { "cairoFormat", CairoFormat },
+    { NULL, NULL }
 };
 
 
 int EXPORT
 luaopen_Cairo(lua_State *L)
 {
-	int i;
+    int i;
 
-	/* General functions */
-	commonNewLibrary(L, functions);
+    /* General functions */
+    commonNewLibrary(L, functions);
 
-	/* Library categories */
-	for (i = 0; libraries[i].functions != NULL; ++i)
-		commonBindLibrary(L, libraries[i].functions);
+    /* Library categories */
+    for (i = 0; libraries[i].functions != NULL; ++i)
+    	commonBindLibrary(L, libraries[i].functions);
 
-	/* Enumerations */
-	for (i = 0; enums[i].values != NULL; ++i)
-		commonBindEnum(L, -1, enums[i].name, enums[i].values);
+    /* Enumerations */
+    for (i = 0; enums[i].values != NULL; ++i)
+    	commonBindEnum(L, -1, enums[i].name, enums[i].values);
 
-	/* Object oriented data */
-	/*for (i = 0; objects[i].object != NULL; ++i)*/
-		/*commonBindObject(L, objects[i].object);*/
+    /* Object oriented data */
+    /*for (i = 0; objects[i].object != NULL; ++i)*/
+    	/*commonBindObject(L, objects[i].object);*/
 
-	/* Store the version */
-	/*cairo_version ver;*/
-	/*SDL_GetVersion(&ver);*/
+    /* Store the version */
+    /*cairo_version ver;*/
+    /*SDL_GetVersion(&ver);*/
 
-	/*tableSetInt(L, -1, "VERSION_MAJOR", ver.major);*/
-	/*tableSetInt(L, -1, "VERSION_MINOR", ver.minor);*/
-	/*tableSetInt(L, -1, "VERSION_PATCH", ver.patch);*/
+    /*tableSetInt(L, -1, "VERSION_MAJOR", ver.major);*/
+    /*tableSetInt(L, -1, "VERSION_MINOR", ver.minor);*/
+    /*tableSetInt(L, -1, "VERSION_PATCH", ver.patch);*/
 
-	tableSetInt(L, -1, "VERSION_BINDING", 4);
-	tableSetInt(L, -1, "VERSION_BINDING_PATCH", 1);
+    tableSetInt(L, -1, "VERSION_BINDING", 4);
+    tableSetInt(L, -1, "VERSION_BINDING_PATCH", 1);
 
-	/*lua_newtable(L);*/
-	/*tableSetInt(L, -1, "major", ver.major);*/
-	/*tableSetInt(L, -1, "minor", ver.minor);*/
-	/*tableSetInt(L, -1, "patch", ver.patch);*/
-	/*lua_setfield(L, -2, "version");*/
+    /*lua_newtable(L);*/
+    /*tableSetInt(L, -1, "major", ver.major);*/
+    /*tableSetInt(L, -1, "minor", ver.minor);*/
+    /*tableSetInt(L, -1, "patch", ver.patch);*/
+    /*lua_setfield(L, -2, "version");*/
 
-	lua_newtable(L);
-	tableSetInt(L, -1, "major", VERSION_BINDING_MAJOR);
-	tableSetInt(L, -1, "minor", VERSION_BINDING_MINOR);
-	lua_setfield(L, -2, "binding");
+    lua_newtable(L);
+    tableSetInt(L, -1, "major", VERSION_BINDING_MAJOR);
+    tableSetInt(L, -1, "minor", VERSION_BINDING_MINOR);
+    lua_setfield(L, -2, "binding");
 
-	return 1;
+    return 1;
 }
+
+/*static int _wrap_cairo_version(lua_State* L) {
+    int SWIG_arg = 0;
+    int result;
+  
+    SWIG_check_num_args("cairo_version",0,0)
+    result = (int)cairo_version();
+    lua_pushnumber(L, (lua_Number) result); SWIG_arg++;
+    return SWIG_arg;
+  
+    if(0) SWIG_fail;
+  
+fail:
+    lua_error(L);
+    return SWIG_arg;
+}
+
+
+static int _wrap_cairo_version_string(lua_State* L) {
+    int SWIG_arg = 0;
+    char *result = 0 ;
+  
+    SWIG_check_num_args("cairo_version_string",0,0)
+    result = (char *)cairo_version_string();
+    lua_pushstring(L,(const char *)result); SWIG_arg++;
+    return SWIG_arg;
+  
+    if(0) SWIG_fail;
+  
+fail:
+    lua_error(L);
+    return SWIG_arg;
+}*/

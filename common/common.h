@@ -197,7 +197,7 @@ commonGetUserdata(lua_State *L, int index, const char *tname);
  * @return count
  */
 int
-commonPushSDLError(lua_State *L, int count);
+commonPushCairoError(lua_State *L, cairo_status_t status);
 
 /**
  * Pushes the errno error.
@@ -206,8 +206,8 @@ commonPushSDLError(lua_State *L, int count);
  * @param count number of nil to pushes before
  * @return count
  */
-int
-commonPushErrno(lua_State *L, int count);
+//int
+//commonPushErrno(lua_State *L, int count);
 
 /**
  * Convenient wrapper for pushing values.

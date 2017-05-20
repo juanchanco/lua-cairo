@@ -195,20 +195,15 @@ commonGetUserdata(lua_State *L, int index, const char *tname)
 	return luaL_checkudata(L, index, tname);
 }
 
-/*int
-commonPushSDLError(lua_State *L, int count)
-{
-	int i;
-
-	for (i = 0; i < count; ++i)
-		lua_pushnil(L);
-
-	lua_pushstring(L, SDL_GetError());
-
-	return count + 1;
-}*/
-
 int
+commonPushCairoError(lua_State *L, cairo_status_t status)
+{
+        lua_pushnil(L);
+        lua_pushstring(L, cairo_status_to_string(status));
+        return 2;
+}
+
+/*int
 commonPushErrno(lua_State *L, int count)
 {
 	int i;
@@ -219,7 +214,7 @@ commonPushErrno(lua_State *L, int count)
 	lua_pushstring(L, strerror(errno));
 
 	return count + 1;
-}
+}*/
 
 int
 commonPush(lua_State *L, const char *fmt, ...)
@@ -272,3 +267,26 @@ commonPush(lua_State *L, const char *fmt, ...)
 	
 	return count;
 }
+/*typedef enum _cairo_status {
+    CAIRO_STATUS_SUCCESS = 0,
+    CAIRO_STATUS_NO_MEMORY,
+    CAIRO_STATUS_INVALID_RESTORE,
+    CAIRO_STATUS_INVALID_POP_GROUP,
+    CAIRO_STATUS_NO_CURRENT_POINT,
+    CAIRO_STATUS_INVALID_MATRIX,
+    CAIRO_STATUS_INVALID_STATUS,
+    CAIRO_STATUS_NULL_POINTER,
+    CAIRO_STATUS_INVALID_STRING,
+    CAIRO_STATUS_INVALID_PATH_DATA,
+    CAIRO_STATUS_READ_ERROR,
+    CAIRO_STATUS_WRITE_ERROR,
+    CAIRO_STATUS_SURFACE_FINISHED,
+    CAIRO_STATUS_SURFACE_TYPE_MISMATCH,
+    CAIRO_STATUS_PATTERN_TYPE_MISMATCH,
+    CAIRO_STATUS_INVALID_CONTENT,
+    CAIRO_STATUS_INVALID_FORMAT,
+    CAIRO_STATUS_INVALID_VISUAL,
+    CAIRO_STATUS_FILE_NOT_FOUND,
+    CAIRO_STATUS_INVALID_DASH
+} cairo_status_t;*/
+
