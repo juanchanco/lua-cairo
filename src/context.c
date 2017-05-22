@@ -7,6 +7,8 @@
 #include "common/common.h"
 #include "common/table.h"
 
+#include "context.h"
+
 const CommonEnum CairoAntialias[] = {
     { "Default", CAIRO_ANTIALIAS_DEFAULT },
     { "None", CAIRO_ANTIALIAS_NONE },
@@ -18,7 +20,7 @@ const CommonEnum CairoAntialias[] = {
     { NULL, -1 }
 };
 
-const CommonEnum CairoAntialias[] = {
+const CommonEnum CairoFillRule[] = {
     { "Winding", CAIRO_FILL_RULE_WINDING },
     { "Even_odd", CAIRO_FILL_RULE_EVEN_ODD },
     { NULL, -1 }
@@ -93,18 +95,18 @@ fail:
 }*/
 
 
-static int _cairo_reference(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+/*static int _cairo_reference(lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     cairo_t* result = cairo_reference(cr);
-    return commonPush(L, "p", "Context", result);
-}
+    return commonPush(L, "p", Context.name, result);
+}*/
 
 
-static int _cairo_destroy(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+/*static int _cairo_destroy(lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     cairo_destroy(cr);
     return commonPush(L, "b", 1);
-}
+}*/
 
 /*static int _cairo_status(lua_State* L) {*/
   /*int SWIG_arg = 0;*/
@@ -130,14 +132,14 @@ static int _cairo_destroy(lua_State* L) {
 /*}*/
 
 static int _cairo_save(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     cairo_save(cr);
     return commonPush(L, "b", 1);
 }
 
 
 static int _cairo_restore(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     cairo_restore(cr);
     return commonPush(L, "b", 1);
 }
@@ -315,8 +317,9 @@ fail:
 }*/
 
 
+/*TODO: version that takes a map*/
 static int _cairo_set_source_rgb(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double r = (double) luaL_checknumber(L, 2);
     double g = (double) luaL_checknumber(L, 3);
     double b = (double) luaL_checknumber(L, 4);
@@ -326,14 +329,15 @@ static int _cairo_set_source_rgb(lua_State* L) {
 }
 
 
+/*TODO: version that takes a map*/
 static int _cairo_set_source_rgba(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double r = (double) luaL_checknumber(L, 2);
     double g = (double) luaL_checknumber(L, 3);
     double b = (double) luaL_checknumber(L, 4);
     double a = (double) luaL_checknumber(L, 5);
 
-    cairo_set_source_rgb(cr, r, g, b, a);
+    cairo_set_source_rgba(cr, r, g, b, a);
     return commonPush(L, "b", 1);
 }
 
@@ -450,7 +454,7 @@ fail:
 
 
 static int _cairo_set_line_width(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double width = (double) luaL_checknumber(L, 2);
     cairo_set_line_width(cr, width);
     return commonPush(L, "b", 1);
@@ -458,7 +462,7 @@ static int _cairo_set_line_width(lua_State* L) {
 
 
 static int _cairo_set_line_cap(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     int cap = commonGetEnum(L, 2);
     cairo_set_line_cap(cr, cap);
     return commonPush(L, "b", 1);
@@ -1350,7 +1354,7 @@ fail:
 
 
 static int _cairo_stroke(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     cairo_stroke(cr);
     return commonPush(L, "b", 1);
 }
@@ -1380,7 +1384,7 @@ fail:
 
 
 static int _cairo_fill(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     cairo_fill(cr);
     return commonPush(L, "b", 1);
 }
@@ -1474,11 +1478,11 @@ fail:
 }*/
 
 
-/*static int _cairo_paint(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
-    cairo_paint(cr);
-    return commonPush(L, "b", 1);
-}*/
+static int _cairo_paint(lua_State* L) {
+	cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
+	cairo_paint(cr);
+	return commonPush(L, "b", 1);
+}
 
 
 /*static int _cairo_paint_with_alpha(lua_State* L) {
@@ -1505,3 +1509,46 @@ fail:
   lua_error(L);
   return SWIG_arg;
 }*/
+
+static int l_context_gc(lua_State *L) {
+	CommonUserdata *udata = commonGetUserdata(L, 1, ContextName);
+	/*if (udata->mustdelete)*/
+	cairo_destroy(udata->data);
+
+	return 0;
+}
+
+#include "transformation.c"
+#include "path.c"
+
+const luaL_Reg ContextMethods[] = {
+	{ "save", _cairo_save },
+	{ "restore", _cairo_restore },
+	{ "setSourceRgb", _cairo_set_source_rgb },
+	{ "setSourceRgba", _cairo_set_source_rgba },
+	{ "setLineWidth", _cairo_set_line_width },
+	{ "setLineCap", _cairo_set_line_cap },
+	{ "setFill", _cairo_fill },
+	{ "setPaint", _cairo_paint },
+	/*path.c*/
+	{ "moveTo", _cairo_move_to },
+	{ "lineTo", _cairo_line_to },
+	{ "arc", _cairo_arc },
+	/*transformation.c*/
+	{ "translate", _cairo_translate },
+	{ "scale", _cairo_scale },
+	{ NULL, NULL }
+};
+
+const luaL_Reg ContextMetamethods[] = {
+	/*{ "__eq", l_texture_eq },*/
+	{ "__gc", l_context_gc },
+	/*{ "__tostring", l_texture_tostring },*/
+	{ NULL, NULL }
+};
+
+const CommonObject Context = {
+	"CairoContext",
+	ContextMethods,
+	ContextMetamethods
+};

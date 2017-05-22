@@ -7,6 +7,8 @@
 #include "common/common.h"
 #include "common/table.h"
 
+#include "context.h"
+
 const CommonEnum CairoPath[] = {
     { "Move_to", CAIRO_PATH_MOVE_TO },
     { "Line_to", CAIRO_PATH_LINE_TO },
@@ -198,8 +200,9 @@ fail:
 }*/
 
 
+/*TODO: verison that takes map*/
 static int _cairo_move_to(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double x = (double) luaL_checknumber(L, 2);
     double y = (double) luaL_checknumber(L, 3);
     cairo_move_to(cr, x, y);
@@ -231,7 +234,7 @@ fail:
 
 
 static int _cairo_line_to(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double x = (double) luaL_checknumber(L, 2);
     double y = (double) luaL_checknumber(L, 3);
     cairo_line_to(cr, x, y);
@@ -280,8 +283,9 @@ fail:
 }*/
 
 
+/*TODO: verison that takes map*/
 static int _cairo_arc(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double xc = (double) luaL_checknumber(L, 2);
     double yc = (double) luaL_checknumber(L, 3);
     double radius = (double) luaL_checknumber(L, 4);

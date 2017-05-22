@@ -7,6 +7,8 @@
 #include "common/common.h"
 #include "common/table.h"
 
+#include "context.h"
+
 const CommonEnum CairoFormat[] = {
     { "Invalid", CAIRO_FORMAT_INVALID },
     { "Argb32", CAIRO_FORMAT_ARGB32 },

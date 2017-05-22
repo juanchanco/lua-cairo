@@ -6,9 +6,10 @@
 #include <cairo.h>
 #include "common/common.h"
 #include "common/table.h"
+#include "context.h"
 
 static int _cairo_translate(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double tx = (double) luaL_checknumber(L, 2);
     double ty = (double) luaL_checknumber(L, 3);
     cairo_translate(cr, tx, ty);
@@ -17,7 +18,7 @@ static int _cairo_translate(lua_State* L) {
 
 
 static int _cairo_scale(lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double sx = (double) luaL_checknumber(L, 2);
     double sy = (double) luaL_checknumber(L, 3);
     cairo_scale(cr, sx, sy);
