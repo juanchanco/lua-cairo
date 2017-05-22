@@ -44,8 +44,20 @@ static const struct {
     const char	*name;
     const CommonEnum *values;
 } enums[] = {
-    { "cairoFormat", CairoFormat },
+    { "format", CairoFormat },
+    { "antialias", CairoAntialias },
+    { "fillRule", CairoFillRule },
+    { "lineCap", CairoLineCap },
+    { "lineJoin", CairoLineJoin },
+    { "operator", CairoOperator },
     { NULL, NULL }
+};
+
+static const struct {
+	const CommonObject *object;
+} objects[] = {
+	{ &Context },
+	{ NULL }
 };
 
 
@@ -66,8 +78,8 @@ luaopen_Cairo(lua_State *L)
     	commonBindEnum(L, -1, enums[i].name, enums[i].values);
 
     /* Object oriented data */
-    /*for (i = 0; objects[i].object != NULL; ++i)*/
-    	/*commonBindObject(L, objects[i].object);*/
+	for (i = 0; objects[i].object != NULL; ++i)
+		commonBindObject(L, objects[i].object);
 
     /* Store the version */
     /*cairo_version ver;*/

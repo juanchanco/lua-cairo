@@ -9,4 +9,10 @@ extern const luaL_Reg ContextFunctions[];
 
 extern const CommonObject Context;
 
+extern const CommonEnum CairoAntialias[];
+extern const CommonEnum CairoFillRule[];
+extern const CommonEnum CairoLineCap[];
+extern const CommonEnum CairoLineJoin[];
+extern const CommonEnum CairoOperator[];
+ 
 #endif /* !_LAYOUT_H_ */
