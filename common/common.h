@@ -15,6 +15,9 @@
  * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ *
+ *
+ * SDL2 specific code removed from original by <jchanco@bitstream.net> 2017.
  */
 
 #ifndef _COMMON_H_
@@ -25,8 +28,6 @@
 #include <lua.h>
 #include <lualib.h>
 #include <lauxlib.h>
-
-#include <cairo.h>
 
 /*
  * Portability bits
@@ -190,24 +191,14 @@ CommonUserdata *
 commonGetUserdata(lua_State *L, int index, const char *tname);
 
 /**
- * Pushes count * nil + the SDL_GetError() message.
- *
- * @param L the Lua state
- * @param count number of nil to pushes before
- * @return count
- */
-int
-commonPushCairoError(lua_State *L, cairo_status_t status);
-
-/**
  * Pushes the errno error.
  *
  * @param L the Lua state
  * @param count number of nil to pushes before
  * @return count
  */
-//int
-//commonPushErrno(lua_State *L, int count);
+int
+commonPushErrno(lua_State *L, int count);
 
 /**
  * Convenient wrapper for pushing values.

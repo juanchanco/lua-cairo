@@ -3,6 +3,7 @@ project(common)
 set(
 	SOURCES
 	common.c
+	cairo_common.c
 	array.c
 	table.c
 )
