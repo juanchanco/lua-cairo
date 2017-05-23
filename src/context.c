@@ -8,6 +8,7 @@
 #include "common/table.h"
 
 #include "context.h"
+#include "text.h"
 
 const CommonEnum CairoAntialias[] = {
     { "Default", CAIRO_ANTIALIAS_DEFAULT },
@@ -1479,9 +1480,9 @@ fail:
 
 
 static int _cairo_paint(lua_State* L) {
-	cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
-	cairo_paint(cr);
-	return commonPush(L, "b", 1);
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
+    cairo_paint(cr);
+    return commonPush(L, "b", 1);
 }
 
 
@@ -1511,40 +1512,44 @@ fail:
 }*/
 
 static int l_context_gc(lua_State *L) {
-	CommonUserdata *udata = commonGetUserdata(L, 1, ContextName);
-	/*if (udata->mustdelete)*/
-	cairo_destroy(udata->data);
+    CommonUserdata *udata = commonGetUserdata(L, 1, ContextName);
+    /*if (udata->mustdelete)*/
+    cairo_destroy(udata->data);
 
-	return 0;
+    return 0;
 }
 
 #include "transformation.h"
 
 const luaL_Reg ContextMethods[] = {
-	{ "save", _cairo_save },
-	{ "restore", _cairo_restore },
-	{ "setSourceRgb", _cairo_set_source_rgb },
-	{ "setSourceRgba", _cairo_set_source_rgba },
-	{ "setLineWidth", _cairo_set_line_width },
-	{ "setLineCap", _cairo_set_line_cap },
-	{ "setFill", _cairo_fill },
-	{ "setPaint", _cairo_paint },
-	{ "stroke", _cairo_stroke },
-	/*transformation.c*/
-        { "translate", _cairo_translate },
-        { "scale", _cairo_scale },
-	{ NULL, NULL }
+    { "save", _cairo_save },
+    { "restore", _cairo_restore },
+    { "setSourceRgb", _cairo_set_source_rgb },
+    { "setSourceRgba", _cairo_set_source_rgba },
+    { "setLineWidth", _cairo_set_line_width },
+    { "setLineCap", _cairo_set_line_cap },
+    { "setFill", _cairo_fill },
+    { "setPaint", _cairo_paint },
+    { "stroke", _cairo_stroke },
+    /*transformation.c*/
+    { "translate", _cairo_translate },
+    { "scale", _cairo_scale },
+    /*text.c*/
+    { "selectFontFace", _cairo_select_font_face },
+    { "setFontSize", _cairo_set_font_size },
+    { "showText", _cairo_show_text },
+    { NULL, NULL }
 };
 
 const luaL_Reg ContextMetamethods[] = {
-	/*{ "__eq", l_texture_eq },*/
-	{ "__gc", l_context_gc },
-	/*{ "__tostring", l_texture_tostring },*/
-	{ NULL, NULL }
+    /*{ "__eq", l_texture_eq },*/
+    { "__gc", l_context_gc },
+    /*{ "__tostring", l_texture_tostring },*/
+    { NULL, NULL }
 };
 
 const CommonObject Context = {
-	"CairoContext",
-	ContextMethods,
-	ContextMetamethods
+    "CairoContext",
+    ContextMethods,
+    ContextMetamethods
 };

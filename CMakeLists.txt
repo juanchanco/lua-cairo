@@ -25,6 +25,7 @@ set(
 	src/context.c
 	src/image_surface.c
 	src/path.c
+	src/text.c
 )
 
 configure_file(

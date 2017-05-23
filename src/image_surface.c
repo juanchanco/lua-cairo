@@ -1,11 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <config.h>
-
-#include <cairo.h>
 #include "image_surface.h"
-/*#include "common/table.h"*/
 
 const CommonEnum CairoFormat[] = {
   { "Invalid", CAIRO_FORMAT_INVALID },

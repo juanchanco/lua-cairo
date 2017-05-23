@@ -1,3 +1,5 @@
+#include "text.h"
+#include "context.h"
 const CommonEnum CairoFontSlant[] = {
     { "Normal", CAIRO_FONT_SLANT_NORMAL },
     { "Italic", CAIRO_FONT_SLANT_ITALIC },
@@ -10,8 +12,20 @@ const CommonEnum CairoFontWeight[] = {
     { NULL, -1 }
 };
 
-void 	cairo_select_font_face () {}
-void 	cairo_set_font_size () {}
+int _cairo_select_font_face (lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
+    const char* str = luaL_checkstring (L, 2);
+    int slant = commonGetEnum(L, 3);
+    int weight = commonGetEnum(L, 4);
+    cairo_select_font_face(cr, str, slant, weight);
+    return commonPush(L, "b", 1);
+}
+int _cairo_set_font_size (lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
+    double size = (double) luaL_checknumber(L, 2);
+    cairo_set_font_size(cr, size);
+    return commonPush(L, "b", 1);
+}
 /*void 	cairo_set_font_matrix ()*/
 /*void 	cairo_get_font_matrix ()*/
 /*void 	cairo_set_font_options ()*/
@@ -20,11 +34,16 @@ void 	cairo_set_font_size () {}
 /*cairo_font_face_t * 	cairo_get_font_face ()*/
 /*void 	cairo_set_scaled_font ()*/
 /*cairo_scaled_font_t * 	cairo_get_scaled_font ()*/
-void 	cairo_show_text () {}
+int _cairo_show_text (lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
+    const char* text = luaL_checkstring (L, 2);
+    cairo_show_text(cr, text);
+    return commonPush(L, "b", 1);
+}
 /*void 	cairo_show_glyphs ()*/
 /*void 	cairo_show_text_glyphs ()*/
 /*void 	cairo_font_extents ()*/
-void 	cairo_text_extents () {}
+/*VOID 	cairo_text_extents () {}*/
 /*void 	cairo_glyph_extents ()*/
 /*cairo_font_face_t * 	cairo_toy_font_face_create ()*/
 /*const char * 	cairo_toy_font_face_get_family ()*/
