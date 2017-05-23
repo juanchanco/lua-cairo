@@ -64,44 +64,18 @@ static const struct {
 int EXPORT
 luaopen_Cairo(lua_State *L)
 {
-    int i;
+    /*int i;*/
 
-    /* General functions */
     commonNewLibrary(L, functions);
 
-    /* Library categories */
-    for (i = 0; libraries[i].functions != NULL; ++i)
-    	commonBindLibrary(L, libraries[i].functions);
+    /*for (i = 0; libraries[i].functions != NULL; ++i)*/
+        /*commonBindLibrary(L, libraries[i].functions);*/
 
-    /* Enumerations */
-    for (i = 0; enums[i].values != NULL; ++i)
-    	commonBindEnum(L, -1, enums[i].name, enums[i].values);
+    /*for (i = 0; enums[i].values != NULL; ++i)*/
+        /*commonBindEnum(L, -1, enums[i].name, enums[i].values);*/
 
-    /* Object oriented data */
-	for (i = 0; objects[i].object != NULL; ++i)
-		commonBindObject(L, objects[i].object);
-
-    /* Store the version */
-    /*cairo_version ver;*/
-    /*SDL_GetVersion(&ver);*/
-
-    /*tableSetInt(L, -1, "VERSION_MAJOR", ver.major);*/
-    /*tableSetInt(L, -1, "VERSION_MINOR", ver.minor);*/
-    /*tableSetInt(L, -1, "VERSION_PATCH", ver.patch);*/
-
-    tableSetInt(L, -1, "VERSION_BINDING", 4);
-    tableSetInt(L, -1, "VERSION_BINDING_PATCH", 1);
-
-    /*lua_newtable(L);*/
-    /*tableSetInt(L, -1, "major", ver.major);*/
-    /*tableSetInt(L, -1, "minor", ver.minor);*/
-    /*tableSetInt(L, -1, "patch", ver.patch);*/
-    /*lua_setfield(L, -2, "version");*/
-
-    lua_newtable(L);
-    tableSetInt(L, -1, "major", VERSION_BINDING_MAJOR);
-    tableSetInt(L, -1, "minor", VERSION_BINDING_MINOR);
-    lua_setfield(L, -2, "binding");
+	/*for (i = 0; objects[i].object != NULL; ++i)*/
+		/*commonBindObject(L, objects[i].object);*/
 
     return 1;
 }
