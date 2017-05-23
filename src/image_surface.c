@@ -115,7 +115,7 @@ static const luaL_Reg metamethods[] = {
 };
 
 
-const CommonObject Surface = {
+const CommonObject ImageSurface = {
     "ImageSurface",
     methods,
     metamethods
