@@ -8,30 +8,12 @@
 #include "common/table.h"
 
 #include "context.h"
+#include "image_surface.h"
 
-const CommonEnum CairoFormat[] = {
-    { "Invalid", CAIRO_FORMAT_INVALID },
-    { "Argb32", CAIRO_FORMAT_ARGB32 },
-    { "Rgb24", CAIRO_FORMAT_RGB24 },
-    { "A8", CAIRO_FORMAT_A8 },
-    { "A1", CAIRO_FORMAT_A1 },
-    { "Rgb16_565", CAIRO_FORMAT_RGB16_565 },
-    { NULL, -1 }
-};
-
-static int _cairo_image_surface_create(lua_State* L) {
-    int format = commonGetEnum(L, 1);
-    int width = luaL_checkinteger(L, 2);
-    int height = luaL_checkinteger(L, 3);
-    cairo_surface_t* result = cairo_image_surface_create(format, width, height);
-    return commonPush(L, "p", "Surface", result);
-}
 
 static const luaL_Reg functions[] = {
-    { "imageSurfaceCreate", _cairo_image_surface_create },
     { NULL, NULL }
 };
-
 
 static const struct {
     const luaL_Reg *functions;

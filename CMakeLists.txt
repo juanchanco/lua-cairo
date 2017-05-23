@@ -22,6 +22,9 @@ set(WITH_LUAVER "53"
 set(
 	SOURCES
 	src/cairo.c
+	src/context.c
+	src/image_surface.c
+	src/path.c
 )
 
 configure_file(

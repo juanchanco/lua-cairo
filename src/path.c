@@ -8,6 +8,7 @@
 #include "common/table.h"
 
 #include "context.h"
+#include "path.h"
 
 const CommonEnum CairoPath[] = {
     { "Move_to", CAIRO_PATH_MOVE_TO },
@@ -94,28 +95,6 @@ fail:
   return SWIG_arg;
 }*/
 
-
-/*static int _cairo_path_destroy(lua_State* L) {
-  int SWIG_arg = 0;
-  cairo_path_t *arg1 = (cairo_path_t *) 0 ;
-  
-  SWIG_check_num_args("cairo_path_destroy",1,1)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("cairo_path_destroy",1,"cairo_path_t *");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p_cairo_path,0))){
-    SWIG_fail_ptr("cairo_path_destroy",1,SWIGTYPE_p_cairo_path);
-  }
-  
-  cairo_path_destroy(arg1);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}*/
 
 /*static int _cairo_has_current_point(lua_State* L) {
   int SWIG_arg = 0;
@@ -291,7 +270,6 @@ static int _cairo_arc(lua_State* L) {
     double radius = (double) luaL_checknumber(L, 4);
     double angle1 = (double) luaL_checknumber(L, 5);
     double angle2 = (double) luaL_checknumber(L, 6);
-    double y = (double) luaL_checknumber(L, 7);
     cairo_arc(cr, xc, yc, radius, angle1, angle2);
     return commonPush(L, "b", 1);
 }
@@ -599,3 +577,37 @@ fail:
   return SWIG_arg;
 }*/
 
+
+static int _cairo_path_destroy(lua_State* L) {
+    CommonUserdata *path = commonGetUserdata(L, 1, PathName);
+    /*if (path->mustdelete) {*/
+    cairo_path_destroy(path->data);
+    /*}*/
+
+    return 0;
+}
+
+const luaL_Reg PathFunctions[] = {
+    { "moveTo", _cairo_move_to },
+    { "lineTo", _cairo_line_to },
+    { "arc", _cairo_arc },
+    { NULL, NULL }
+};
+
+
+static const luaL_Reg methods[] = {
+    { NULL, NULL }
+};
+
+
+static const luaL_Reg metamethods[] = {
+    { "__gc", _cairo_path_destroy },
+    { NULL, NULL }
+};
+
+
+const CommonObject Path = {
+    "CairoPath",
+    methods,
+    metamethods
+};

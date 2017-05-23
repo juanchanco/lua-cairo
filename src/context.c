@@ -1518,8 +1518,7 @@ static int l_context_gc(lua_State *L) {
 	return 0;
 }
 
-#include "transformation.c"
-#include "path.c"
+#include "transformation.h"
 
 const luaL_Reg ContextMethods[] = {
 	{ "save", _cairo_save },
@@ -1530,13 +1529,10 @@ const luaL_Reg ContextMethods[] = {
 	{ "setLineCap", _cairo_set_line_cap },
 	{ "setFill", _cairo_fill },
 	{ "setPaint", _cairo_paint },
-	/*path.c*/
-	{ "moveTo", _cairo_move_to },
-	{ "lineTo", _cairo_line_to },
-	{ "arc", _cairo_arc },
+	{ "stroke", _cairo_stroke },
 	/*transformation.c*/
-	{ "translate", _cairo_translate },
-	{ "scale", _cairo_scale },
+        { "translate", _cairo_translate },
+        { "scale", _cairo_scale },
 	{ NULL, NULL }
 };
 
