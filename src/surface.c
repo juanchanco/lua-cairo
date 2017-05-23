@@ -1,4 +1,5 @@
 #include "surface.h"
+#include "png.h"
 const CommonEnum CairoContent[] = {
 /*CAIRO_CONTENT_COLOR*/
 /*CAIRO_CONTENT_ALPHA*/
@@ -68,9 +69,9 @@ const CommonEnum CairoSurfaceType[] = {
 
 static int _cairo_surface_destroy(lua_State* L) {
     CommonUserdata *surface = commonGetUserdata(L, 1, SurfaceName);
-    if (surface->mustdelete) {
-        cairo_surface_destroy(surface->data);
-    }
+    /*if (surface->mustdelete) {*/
+    cairo_surface_destroy(surface->data);
+    /*}*/
 
     return 0;
 }
@@ -81,6 +82,9 @@ const luaL_Reg SurfaceFunctions[] = {
 
 
 static const luaL_Reg methods[] = {
+    /* TODO: make this conditional
+     * have a "not implemented" method when is it not */
+    { "writeToPng", _cairo_surface_write_to_png },
     { NULL, NULL }
 };
 
