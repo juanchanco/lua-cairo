@@ -8,6 +8,9 @@
 #include "common/table.h"
 
 #include "context.h"
+#include "path.h"
+#include "text.h"
+#include "surface.h"
 #include "image_surface.h"
 
 
@@ -18,28 +21,43 @@ static const luaL_Reg functions[] = {
 static const struct {
     const luaL_Reg *functions;
 } libraries[] = {
-    /*{ CpuFunctions					},*/
-    { NULL						}
+    { SurfaceFunctions },
+    { ImageSurfaceFunctions },
+    { ContextFunctions },
+    { NULL }
 };
 
 static const struct {
     const char	*name;
     const CommonEnum *values;
 } enums[] = {
-    { "format", CairoFormat },
-    { "antialias", CairoAntialias },
-    { "fillRule", CairoFillRule },
-    { "lineCap", CairoLineCap },
-    { "lineJoin", CairoLineJoin },
-    { "operator", CairoOperator },
+    /* image_surface */
+    { "Format", CairoFormat },
+    /* context */
+    { "Antialias", CairoAntialias },
+    { "FillRule", CairoFillRule },
+    { "LineCap", CairoLineCap },
+    { "LineJoin", CairoLineJoin },
+    { "Operator", CairoOperator },
+    /* path */
+    { "Path", CairoPath },
+    /* text */
+    { "FontSlant", CairoFontSlant },
+    { "FontWeight", CairoFontWeight },
+    /* surface */
+    { "Content", CairoContent },
+    { "SurfaceType", CairoSurfaceType },
     { NULL, NULL }
 };
 
 static const struct {
 	const CommonObject *object;
 } objects[] = {
-	{ &Context },
-	{ NULL }
+    { &Context },
+    { &Surface },
+    { &ImageSurface },
+    { &Context },
+    { NULL }
 };
 
 

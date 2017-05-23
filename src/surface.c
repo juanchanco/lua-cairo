@@ -1,5 +1,9 @@
+#include <cairo.h>
 #include "surface.h"
+#ifdef CAIRO_HAS_PNG_FUNCTIONS
 #include "png.h"
+#endif /* CAIRO_HAS_PNG_FUNCTIONS */
+
 const CommonEnum CairoContent[] = {
 /*CAIRO_CONTENT_COLOR*/
 /*CAIRO_CONTENT_ALPHA*/
@@ -82,9 +86,10 @@ const luaL_Reg SurfaceFunctions[] = {
 
 
 static const luaL_Reg methods[] = {
-    /* TODO: make this conditional
-     * have a "not implemented" method when is it not */
+    /* TODO: have a "not available" method when is it not */
+#ifdef CAIRO_HAS_PNG_FUNCTIONS
     { "writeToPng", _cairo_surface_write_to_png },
+#endif /* CAIRO_HAS_PNG_FUNCTIONS */
     { NULL, NULL }
 };
 

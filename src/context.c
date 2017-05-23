@@ -8,6 +8,8 @@
 #include "common/table.h"
 
 #include "context.h"
+#include "path.h"
+#include "transformation.h"
 #include "text.h"
 
 const CommonEnum CairoAntialias[] = {
@@ -1511,7 +1513,7 @@ fail:
   return SWIG_arg;
 }*/
 
-static int l_context_gc(lua_State *L) {
+static int _cairo_destroy(lua_State *L) {
     CommonUserdata *udata = commonGetUserdata(L, 1, ContextName);
     /*if (udata->mustdelete)*/
     cairo_destroy(udata->data);
@@ -1519,8 +1521,9 @@ static int l_context_gc(lua_State *L) {
     return 0;
 }
 
-#include "transformation.h"
-
+const luaL_Reg ContextFunctions[] = {
+    { NULL, NULL }
+};
 const luaL_Reg ContextMethods[] = {
     { "save", _cairo_save },
     { "restore", _cairo_restore },
@@ -1531,6 +1534,11 @@ const luaL_Reg ContextMethods[] = {
     { "setFill", _cairo_fill },
     { "setPaint", _cairo_paint },
     { "stroke", _cairo_stroke },
+    { "fill", _cairo_fill },
+    /*path.c*/
+    { "moveTo", _cairo_move_to },
+    { "lineTo", _cairo_line_to },
+    { "arc", _cairo_arc },
     /*transformation.c*/
     { "translate", _cairo_translate },
     { "scale", _cairo_scale },
@@ -1538,12 +1546,13 @@ const luaL_Reg ContextMethods[] = {
     { "selectFontFace", _cairo_select_font_face },
     { "setFontSize", _cairo_set_font_size },
     { "showText", _cairo_show_text },
+    { "textExtents", _cairo_text_extents },
     { NULL, NULL }
 };
 
 const luaL_Reg ContextMetamethods[] = {
     /*{ "__eq", l_texture_eq },*/
-    { "__gc", l_context_gc },
+    { "__gc", _cairo_destroy },
     /*{ "__tostring", l_texture_tostring },*/
     { NULL, NULL }
 };

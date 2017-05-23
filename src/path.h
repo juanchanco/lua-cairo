@@ -6,9 +6,9 @@
 
 #define PathName	Path.name
 
-extern const luaL_Reg PathFunctions[];
-
-extern const CommonEnum BlendMode[];
+extern int _cairo_move_to(lua_State* L);
+extern int _cairo_line_to(lua_State* L);
+extern int _cairo_arc(lua_State* L);
 
 extern const CommonObject Path;
 

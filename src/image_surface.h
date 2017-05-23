@@ -12,7 +12,6 @@ extern const luaL_Reg ImageSurfaceFunctions[];
 
 extern const CommonObject ImageSurface;
 
-extern const CommonEnum BlendMode[];
 extern const CommonEnum CairoFormat[];
 
 #endif /* !_IMAGE_SURFACE_H_ */

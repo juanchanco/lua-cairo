@@ -180,7 +180,7 @@ fail:
 
 
 /*TODO: verison that takes map*/
-static int _cairo_move_to(lua_State* L) {
+int _cairo_move_to(lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double x = (double) luaL_checknumber(L, 2);
     double y = (double) luaL_checknumber(L, 3);
@@ -212,7 +212,7 @@ fail:
 }*/
 
 
-static int _cairo_line_to(lua_State* L) {
+int _cairo_line_to(lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double x = (double) luaL_checknumber(L, 2);
     double y = (double) luaL_checknumber(L, 3);
@@ -263,7 +263,7 @@ fail:
 
 
 /*TODO: verison that takes map*/
-static int _cairo_arc(lua_State* L) {
+int _cairo_arc(lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, Context.name, cairo_t *);
     double xc = (double) luaL_checknumber(L, 2);
     double yc = (double) luaL_checknumber(L, 3);
@@ -588,9 +588,6 @@ static int _cairo_path_destroy(lua_State* L) {
 }
 
 const luaL_Reg PathFunctions[] = {
-    { "moveTo", _cairo_move_to },
-    { "lineTo", _cairo_line_to },
-    { "arc", _cairo_arc },
     { NULL, NULL }
 };
 
