@@ -19,7 +19,7 @@ static int _cairo_image_surface_create(lua_State* L) {
     if (status != CAIRO_STATUS_SUCCESS) {
         return commonPushCairoError(L, status);
     }
-    return commonPush(L, "p", ImageSurface.name, result);
+    return commonPush(L, "p", ImageSurfaceName, result);
 }
 
 static int _cairo_image_surface_create_for_data(lua_State* L) {
@@ -35,17 +35,17 @@ static int _cairo_image_surface_create_for_data(lua_State* L) {
     if (status != CAIRO_STATUS_SUCCESS) {
         return commonPushCairoError(L, status);
     }
-    return commonPush(L, "p", ImageSurface.name, result);
+    return commonPush(L, "p", ImageSurfaceName, result);
 
 }
 static int _cairo_image_surface_get_data(lua_State* L) {
-    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurface.name);
+    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     unsigned char* result = cairo_image_surface_get_data(surface->data);
     return commonPush(L, "p", "Raw", result);
 }
 
 static int _cairo_image_surface_get_format(lua_State* L) {
-    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurface.name);
+    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     cairo_format_t result = cairo_image_surface_get_format(surface->data);
     /*commonPushEnum(L, result, CairoFormat);*/
     return commonPush(L, "i", result);
@@ -53,17 +53,17 @@ static int _cairo_image_surface_get_format(lua_State* L) {
 
 
 static int _cairo_image_surface_get_width(lua_State* L) {
-    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurface.name);
+    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     int result = cairo_image_surface_get_width(surface->data);
     return commonPush(L, "i", result);
 }
 static int _cairo_image_surface_get_height(lua_State* L) {
-    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurface.name);
+    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     int result = cairo_image_surface_get_height(surface->data);
     return commonPush(L, "i", result);
 }
 static int _cairo_image_surface_get_stride(lua_State* L) {
-    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurface.name);
+    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     int result = cairo_image_surface_get_stride(surface->data);
     return commonPush(L, "i", result);
 }
@@ -76,10 +76,10 @@ static int _cairo_format_stride_for_width(lua_State* L) {
 }
 
 static int _cairo_surface_destroy(lua_State* L) {
-    CommonUserdata *surface = commonGetUserdata(L, 1, ImageSurface.name);
-    if (surface->mustdelete) {
-        cairo_surface_destroy(surface->data);
-    }
+    CommonUserdata *surface = commonGetUserdata(L, 1, ImageSurfaceName);
+    /*if (surface->mustdelete) {*/
+    cairo_surface_destroy(surface->data);
+    /*}*/
 
     return 0;
 }

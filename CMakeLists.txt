@@ -26,6 +26,7 @@ set(
 	src/image_surface.c
 	src/path.c
 	src/text.c
+	src/transformation.c
 )
 
 configure_file(

@@ -1,3 +1,4 @@
+#include "surface.h"
 const CommonEnum CairoContent[] = {
 /*CAIRO_CONTENT_COLOR*/
 /*CAIRO_CONTENT_ALPHA*/
@@ -64,3 +65,34 @@ const CommonEnum CairoSurfaceType[] = {
 /*cairo_bool_t 	cairo_surface_supports_mime_type ()*/
 /*cairo_surface_t * 	cairo_surface_map_to_image ()*/
 /*void 	cairo_surface_unmap_image ()*/
+
+static int _cairo_surface_destroy(lua_State* L) {
+    CommonUserdata *surface = commonGetUserdata(L, 1, SurfaceName);
+    if (surface->mustdelete) {
+        cairo_surface_destroy(surface->data);
+    }
+
+    return 0;
+}
+
+const luaL_Reg SurfaceFunctions[] = {
+    { NULL, NULL }
+};
+
+
+static const luaL_Reg methods[] = {
+    { NULL, NULL }
+};
+
+
+static const luaL_Reg metamethods[] = {
+    { "__gc", _cairo_surface_destroy },
+    { NULL, NULL }
+};
+
+
+const CommonObject Surface = {
+    "Surface",
+    methods,
+    metamethods
+};
