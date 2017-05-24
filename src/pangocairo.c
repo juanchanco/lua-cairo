@@ -1,3 +1,4 @@
+#include "context.h"
 #include "pangocairo.h"
 
 /*PangoFontMap * 	pango_cairo_font_map_get_default ()*/
@@ -19,13 +20,13 @@
 /*PangoContext * 	pango_cairo_create_context ()*/
 /*void 	pango_cairo_update_context ()*/
 int _pango_cairo_create_layout (lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     PangoLayout* result = pango_cairo_create_layout(cr);
     return commonPush(L, "p", "Layout", result);
 }
 
 int _pango_cairo_update_layout (lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     PangoLayout *layout = commonGetAs(L, 2, "Layout", PangoLayout *);
     pango_cairo_update_layout(cr, layout);
     return commonPush(L, "b", 1);
@@ -34,7 +35,7 @@ int _pango_cairo_update_layout (lua_State* L) {
 /*void 	pango_cairo_show_glyph_item ()*/
 /*void 	pango_cairo_show_layout_line ()*/
 int _pango_cairo_show_layout (lua_State* L) {
-    cairo_t *cr = commonGetAs(L, 1, "Context", cairo_t *);
+    cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     PangoLayout *layout = commonGetAs(L, 2, "Layout", PangoLayout *);
     pango_cairo_show_layout(cr, layout);
     return commonPush(L, "b", 1);

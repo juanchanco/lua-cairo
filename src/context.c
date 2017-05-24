@@ -1534,7 +1534,7 @@ const luaL_Reg ContextMethods[] = {
     { "setLineWidth", _cairo_set_line_width },
     { "setLineCap", _cairo_set_line_cap },
     { "setFill", _cairo_fill },
-    { "setPaint", _cairo_paint },
+    { "paint", _cairo_paint },
     { "stroke", _cairo_stroke },
     { "fill", _cairo_fill },
     /*path.c*/
@@ -1544,6 +1544,7 @@ const luaL_Reg ContextMethods[] = {
     /*transformation.c*/
     { "translate", _cairo_translate },
     { "scale", _cairo_scale },
+    { "rotate", _cairo_rotate },
     /*text.c*/
     { "selectFontFace", _cairo_select_font_face },
     { "setFontSize", _cairo_set_font_size },
