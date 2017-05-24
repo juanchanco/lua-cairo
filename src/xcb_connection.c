@@ -67,7 +67,10 @@ static int _find_visual(lua_State* L) {
     xcb_connection_t *conn = commonGetAs(L, 1, XcbConnectionName, xcb_connection_t *);
     uint32_t visual = (uint32_t) luaL_checkinteger(L, 2);
     xcb_visualtype_t* result = find_visual(conn, visual);
-    return commonPush(L, "p", "XcbVisual", result);
+    if (!result) {
+        return commonPushError(L, "find_visual failed");
+    }
+    return commonPush(L, "p", XcbVisualName, result);
 };
 
 static int _xcb_connect(lua_State* L) {
@@ -210,6 +213,12 @@ static const luaL_Reg metamethods[] = {
     { NULL, NULL }
 };
 
+
+const CommonObject XcbVisual = {
+    "XcbVisual",
+    NULL,
+    NULL
+};
 
 const CommonObject XcbConnection = {
     "XcbConnection",

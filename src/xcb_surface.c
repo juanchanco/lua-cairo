@@ -10,7 +10,7 @@
 static int _cairo_xcb_surface_create(lua_State* L) {
     xcb_connection_t *conn = commonGetAs(L, 1, XcbConnectionName, xcb_connection_t *);
     int window = luaL_checkinteger(L, 2);
-    xcb_visualtype_t *visual = commonGetAs(L, 3, "XcbVisual", xcb_visualtype_t *);
+    xcb_visualtype_t *visual = commonGetAs(L, 3, XcbVisualName, xcb_visualtype_t *);
     int width = luaL_checkinteger(L, 4);
     int height = luaL_checkinteger(L, 5);
     cairo_surface_t* result =

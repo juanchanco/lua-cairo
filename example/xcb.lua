@@ -18,4 +18,5 @@ conn:mapWindow(wid)
 conn:flush()
 
 local visual = assert(conn:findVisual(screen.rootVisual))
+print(visual)
 local surface = Cairo.xcbSurfaceCreate(conn, wid, visual, 150, 150)

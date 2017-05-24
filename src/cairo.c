@@ -67,6 +67,7 @@ static const struct {
     /*{ &ImageSurface },*/
     { &Context },
     { &XcbConnection },
+    { &XcbVisual },
     { NULL }
 };
 
