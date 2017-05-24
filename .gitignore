@@ -10,3 +10,5 @@ CTestTestfile.cmake
 build
 .vimrc
 *.swp
+*.so
+*.o

@@ -190,6 +190,9 @@ commonPushUserdata(lua_State *L, const char *tname, void *data);
 CommonUserdata *
 commonGetUserdata(lua_State *L, int index, const char *tname);
 
+int
+commonPushError(lua_State *L, char* message);
+
 /**
  * Pushes the errno error.
  *

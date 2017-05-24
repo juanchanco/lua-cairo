@@ -13,6 +13,7 @@
 #include "surface.h"
 #include "image_surface.h"
 /*TODO: make conditional*/
+#include "xcb_connection.h"
 #include "xcb_surface.h"
 
 
@@ -26,6 +27,8 @@ static const struct {
     { SurfaceFunctions },
     { ImageSurfaceFunctions },
     { ContextFunctions },
+    { XcbConnectionFunctions },
+    { XcbSurfaceFunctions },
     { NULL }
 };
 
@@ -49,6 +52,10 @@ static const struct {
     /* surface */
     { "Content", CairoContent },
     { "SurfaceType", CairoSurfaceType },
+    /* xcb */
+    { "XcbConnectionError", XcbConnectionError },
+    { "XcbWindowClass", XcbWindowClass },
+    { "XcbCW", XcbCW },
     { NULL, NULL }
 };
 
@@ -59,6 +66,7 @@ static const struct {
     { &Surface },
     /*{ &ImageSurface },*/
     { &Context },
+    { &XcbConnection },
     { NULL }
 };
 

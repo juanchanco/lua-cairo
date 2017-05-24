@@ -1,12 +1,42 @@
 #include <cairo.h>
+#ifdef CAIRO_HAS_XCB_SURFACE
+#include <cairo-xcb.h>
+#include <xcb/xcb.h>
 #include "context.h"
+#include "xcb_connection.h"
 #include "xcb_surface.h"
 
+/*cairo_surface_t * 	cairo_xcb_surface_create ()*/
+static int _cairo_xcb_surface_create(lua_State* L) {
+    xcb_connection_t *conn = commonGetAs(L, 1, XcbConnectionName, xcb_connection_t *);
+    int window = luaL_checkinteger(L, 2);
+    xcb_visualtype_t *visual = commonGetAs(L, 3, "XcbVisual", xcb_visualtype_t *);
+    int width = luaL_checkinteger(L, 4);
+    int height = luaL_checkinteger(L, 5);
+    cairo_surface_t* result =
+        cairo_xcb_surface_create(conn, window, visual, width, height);
+    cairo_status_t status = cairo_surface_status(result);
+    if (status != CAIRO_STATUS_SUCCESS) {
+        return commonPushCairoError(L, status);
+    }
+    return commonPush(L, "p", XcbSurfaceName, result);
+}
+
+/*cairo_surface_t * 	cairo_xcb_surface_create_for_bitmap ()*/
+/*cairo_surface_t * 	cairo_xcb_surface_create_with_xrender_format ()*/
+/*void 	cairo_xcb_surface_set_size ()*/
+/*void 	cairo_xcb_surface_set_drawable ()*/
+/*xcb_connection_t * 	cairo_xcb_device_get_connection ()*/
+/*void 	cairo_xcb_device_debug_cap_xrender_version ()*/
+/*void 	cairo_xcb_device_debug_cap_xshm_version ()*/
+/*int 	cairo_xcb_device_debug_get_precision ()*/
+/*void 	cairo_xcb_device_debug_set_precision ()*/
 const luaL_Reg XcbSurfaceFunctions[] = {
+    { "xcbSurfaceCreate", _cairo_xcb_surface_create },
     { NULL, NULL }
 };
 
-
+/*TODO: need to release any xcb resources?*/
 static const luaL_Reg methods[] = {
     { NULL, NULL }
 };
@@ -22,6 +52,7 @@ const CommonObject XcbSurface = {
     methods,
     metamethods
 };
+#endif /* CAIRO_HAS_XCB_SURFACE */
 /*#include <xcb/xcb.h>
 #include <cairo-xcb.h>
 #include <stdio.h>

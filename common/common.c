@@ -199,6 +199,14 @@ commonGetUserdata(lua_State *L, int index, const char *tname)
 }
 
 int
+commonPushError(lua_State *L, char* message)
+{
+    lua_pushnil(L);
+    lua_pushstring(L, message);
+    return 2;
+}
+
+int
 commonPushErrno(lua_State *L, int count)
 {
     int i;
