@@ -1,5 +1,5 @@
 local Cairo = require("Cairo")
-local conn = Cairo.xcbConnect({})
+local conn = assert(Cairo.xcbConnect({}))
 local screen = conn:createScreen()
 local wid = conn:generateId()
 local params = {
@@ -17,6 +17,5 @@ conn:createWindow(params)
 conn:mapWindow(wid)
 conn:flush()
 
-local visual = conn:findVisual(screen.rootVisual)
-
+local visual = assert(conn:findVisual(screen.rootVisual))
 local surface = Cairo.xcbSurfaceCreate(conn, wid, visual, 150, 150)
