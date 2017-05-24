@@ -11,6 +11,8 @@
 #include "path.h"
 #include "transformation.h"
 #include "text.h"
+/*TODO: MAKE CONDITIONAL */
+#include "pangocairo.h"
 
 const CommonEnum CairoAntialias[] = {
     { "Default", CAIRO_ANTIALIAS_DEFAULT },
@@ -1547,6 +1549,10 @@ const luaL_Reg ContextMethods[] = {
     { "setFontSize", _cairo_set_font_size },
     { "showText", _cairo_show_text },
     { "textExtents", _cairo_text_extents },
+    /*pangocairo TODO: MAKE CONDITIONAL */
+    { "createPangoLayout", _pango_cairo_create_layout },
+    { "updatePangoLayout", _pango_cairo_update_layout },
+    { "showPangoLayout", _pango_cairo_show_layout },
     { NULL, NULL }
 };
 
