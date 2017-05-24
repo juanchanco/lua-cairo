@@ -71,8 +71,24 @@ const CommonEnum CairoSurfaceType[] = {
 /*cairo_surface_t * 	cairo_surface_map_to_image ()*/
 /*void 	cairo_surface_unmap_image ()*/
 
+/*TODO: inheritence*/
+#ifdef CAIRO_HAS_PNG_FUNCTIONS
+int _cairo_surface_write_to_png (lua_State* L) {
+    CommonUserdata *surface = commonGetUserdataBase(L, 1, SurfaceName);
+    cairo_surface_t *surf = (cairo_surface_t*) surface->data;
+    const char* fname = luaL_checkstring (L, 2);
+    cairo_status_t status = cairo_surface_write_to_png(surf, fname);
+    if (status != CAIRO_STATUS_SUCCESS) {
+        return commonPushCairoError(L, status);
+    }
+    return commonPush(L, "b", 1);
+}
+#endif /* CAIRO_HAS_PNG_FUNCTIONS */
+
 static int _cairo_surface_destroy(lua_State* L) {
-    CommonUserdata *surface = commonGetUserdata(L, 1, SurfaceName);
+    CommonUserdata *surface = commonGetUserdataBase(L, 1, SurfaceName);
+    /*TODO: check for null*/
+    /*printf("GC: cairo_surface_destroy (Surface)\n");*/
     /*if (surface->mustdelete) {*/
     cairo_surface_destroy(surface->data);
     /*}*/

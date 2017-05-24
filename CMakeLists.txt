@@ -25,7 +25,7 @@ set(
         src/context.c
         src/image_surface.c
         src/path.c
-        src/png.c
+        #src/png.c
         src/surface.c
         src/text.c
         src/transformation.c

@@ -139,13 +139,13 @@ commonBindObject(lua_State *L, const CommonObject *def)
 	}
 
 	if (def->methods != NULL) {
-		lua_createtable(L, 0, 0);
+                lua_createtable(L, 0, 0);
 #if LUA_VERSION_NUM >= 502
 		luaL_setfuncs(L, def->methods, 0);
 #else
 		luaL_register(L, NULL, def->methods);
 #endif
-		lua_setfield(L, -2, "__index");
+                lua_setfield(L, -2, "__index");
 	}
 
 	lua_pop(L, 1);

@@ -1,7 +1,4 @@
 #include <cairo.h>
-#ifdef CAIRO_HAS_PNG_FUNCTIONS
-#include "png.h"
-#endif /* CAIRO_HAS_PNG_FUNCTIONS */
 #include "context.h"
 #include "image_surface.h"
 
@@ -91,15 +88,6 @@ static int _cairo_format_stride_for_width(lua_State* L) {
     return commonPush(L, "i", result);
 }
 
-static int _cairo_surface_destroy(lua_State* L) {
-    CommonUserdata *surface = commonGetUserdata(L, 1, ImageSurfaceName);
-    /*if (surface->mustdelete) {*/
-    cairo_surface_destroy(surface->data);
-    /*}*/
-
-    return 0;
-}
-
 const luaL_Reg ImageSurfaceFunctions[] = {
     { "imageSurfaceCreate", _cairo_image_surface_create },
     { "imageSurfaceCreateForData", _cairo_image_surface_create_for_data },
@@ -115,22 +103,17 @@ static const luaL_Reg methods[] = {
     { "getWidth", _cairo_image_surface_get_width },
     { "getHeight", _cairo_image_surface_get_height },
     { "getStride", _cairo_image_surface_get_stride },
-/*TODO: inheritence*/
-#ifdef CAIRO_HAS_PNG_FUNCTIONS
-    { "writeToPng", _cairo_surface_write_to_png },
-#endif /* CAIRO_HAS_PNG_FUNCTIONS */
     { NULL, NULL }
 };
 
 
 static const luaL_Reg metamethods[] = {
-    { "__gc", _cairo_surface_destroy },
     { NULL, NULL }
 };
 
 
 const CommonObject ImageSurface = {
-    "ImageSurface",
+    "Surface.Image",
     methods,
     metamethods
 };

@@ -55,7 +55,7 @@ static const struct {
 } objects[] = {
     { &Context },
     { &Surface },
-    { &ImageSurface },
+    /*{ &ImageSurface },*/
     { &Context },
     { NULL }
 };
@@ -64,18 +64,20 @@ static const struct {
 int EXPORT
 luaopen_Cairo(lua_State *L)
 {
-    /*int i;*/
+    int i;
 
     commonNewLibrary(L, functions);
 
-    /*for (i = 0; libraries[i].functions != NULL; ++i)*/
-        /*commonBindLibrary(L, libraries[i].functions);*/
+    for (i = 0; libraries[i].functions != NULL; ++i)
+        commonBindLibrary(L, libraries[i].functions);
 
-    /*for (i = 0; enums[i].values != NULL; ++i)*/
-        /*commonBindEnum(L, -1, enums[i].name, enums[i].values);*/
+    for (i = 0; enums[i].values != NULL; ++i)
+        commonBindEnum(L, -1, enums[i].name, enums[i].values);
 
-	/*for (i = 0; objects[i].object != NULL; ++i)*/
-		/*commonBindObject(L, objects[i].object);*/
+    for (i = 0; objects[i].object != NULL; ++i)
+        commonBindObject(L, objects[i].object);
+
+    commonExtendObject(L, &Surface, &ImageSurface);
 
     return 1;
 }
