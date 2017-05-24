@@ -12,6 +12,8 @@
 #include "text.h"
 #include "surface.h"
 #include "image_surface.h"
+/*TODO: make conditional*/
+#include "xcb_surface.h"
 
 
 static const luaL_Reg functions[] = {
@@ -78,6 +80,7 @@ luaopen_Cairo(lua_State *L)
         commonBindObject(L, objects[i].object);
 
     commonExtendObject(L, &Surface, &ImageSurface);
+    commonExtendObject(L, &Surface, &XcbSurface);
 
     return 1;
 }

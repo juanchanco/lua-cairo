@@ -4,8 +4,6 @@
 #include <common/common.h>
 #include <common/cairo_common.h>
 
-//TODO: does ImageSurface "extend" Surface?
-//(check struct definition in cairo)
 #define ImageSurfaceName	ImageSurface.name
 
 extern const luaL_Reg ImageSurfaceFunctions[];

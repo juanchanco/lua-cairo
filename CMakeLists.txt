@@ -31,6 +31,7 @@ set(
         src/transformation.c
 	#TODO: make conditional
         src/pangocairo.c
+        src/xcb_surface.c
 )
 
 configure_file(
@@ -42,6 +43,7 @@ include_directories(${CMAKE_SOURCE_DIR}/build)
 
 find_package(Cairo REQUIRED)
 #TODO: make conditional
+find_package(XCB REQUIRED)
 find_package(Pango REQUIRED)
 find_package(GLIB REQUIRED)
 find_package(Pangocairo REQUIRED)
@@ -80,7 +82,8 @@ include_directories(
 	${CAIRO_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}
 	${LUA_INCLUDES}
-#TODO: make conditional
+        #TODO: make conditional
+        ${XCB_INCLUDE_DIRS}
 	${GLIB_INCLUDE_DIRS}
 	${PANGO_INCLUDE_DIRS}
 	${PANGOCAIRO_INCLUDE_DIRS}
@@ -114,6 +117,7 @@ target_link_libraries(
 	${CAIRO_LIBRARIES}
 	${LUA_LIBRARIES}
 	#TODO: Make conditioonal
+        ${XCB_LIBRARIES}
 	${GLIB_LIBRARIES}
 	${PANGO_LIBRARIES}
 	${PANGOCAIRO_LIBRARIES}
