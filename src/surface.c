@@ -1,4 +1,5 @@
 #include <cairo.h>
+#include "context.h"
 #include "surface.h"
 #ifdef CAIRO_HAS_PNG_FUNCTIONS
 #include "png.h"
@@ -38,7 +39,16 @@ const CommonEnum CairoSurfaceType[] = {
 /*CAIRO_SURFACE_TYPE_COGL*/
     { NULL, -1 }
 };
-	 
+ 
+static int _cairo_create(lua_State* L) {
+    CommonUserdata* surface = commonGetUserdataBase(L, 1, SurfaceName);
+    cairo_t* result = cairo_create(surface->data);
+    cairo_status_t status = cairo_status(result);
+    if (status != CAIRO_STATUS_SUCCESS) {
+        return commonPushCairoError(L, status);
+    }
+    return commonPush(L, "p", ContextName, result);
+}
 /*cairo_surface_t * 	cairo_surface_create_similar ()*/
 /*cairo_surface_t * 	cairo_surface_create_similar_image ()*/
 /*cairo_surface_t * 	cairo_surface_create_for_rectangle ()*/
@@ -46,7 +56,11 @@ const CommonEnum CairoSurfaceType[] = {
 /*void 	cairo_surface_destroy ()*/
 /*cairo_status_t 	cairo_surface_status ()*/
 /*void 	cairo_surface_finish ()*/
-/*void 	cairo_surface_flush ()*/
+static int _cairo_surface_flush(lua_State* L) {
+    CommonUserdata* surface = commonGetUserdataBase(L, 1, SurfaceName);
+    cairo_surface_flush(surface->data);
+    return 0;
+}
 /*cairo_device_t * 	cairo_surface_get_device ()*/
 /*void 	cairo_surface_get_font_options ()*/
 /*cairo_content_t 	cairo_surface_get_content ()*/
@@ -90,6 +104,7 @@ static int _cairo_surface_destroy(lua_State* L) {
     /*TODO: check for null*/
     /*printf("GC: cairo_surface_destroy (Surface)\n");*/
     /*if (surface->mustdelete) {*/
+    cairo_surface_finish(surface->data);
     cairo_surface_destroy(surface->data);
     /*}*/
 
@@ -102,6 +117,8 @@ const luaL_Reg SurfaceFunctions[] = {
 
 
 static const luaL_Reg methods[] = {
+    { "createContext", _cairo_create },
+    { "flush", _cairo_surface_flush },
     /* TODO: have a "not available" method when is it not */
 #ifdef CAIRO_HAS_PNG_FUNCTIONS
     { "writeToPng", _cairo_surface_write_to_png },

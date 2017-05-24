@@ -56,6 +56,7 @@ static const struct {
     { "XcbConnectionError", XcbConnectionError },
     { "XcbWindowClass", XcbWindowClass },
     { "XcbCW", XcbCW },
+    { "XcbDefines", XcbDefines },
     { NULL, NULL }
 };
 
@@ -68,6 +69,7 @@ static const struct {
     { &Context },
     { &XcbConnection },
     { &XcbVisual },
+    { &XcbEvent },
     { NULL }
 };
 

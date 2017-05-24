@@ -9,6 +9,7 @@
 extern int _cairo_move_to(lua_State* L);
 extern int _cairo_line_to(lua_State* L);
 extern int _cairo_arc(lua_State* L);
+extern int _cairo_close_path(lua_State* L);
 
 extern const luaL_Reg PathFunctions[];
 

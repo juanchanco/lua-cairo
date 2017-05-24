@@ -1541,6 +1541,7 @@ const luaL_Reg ContextMethods[] = {
     { "moveTo", _cairo_move_to },
     { "lineTo", _cairo_line_to },
     { "arc", _cairo_arc },
+    { "closePath", _cairo_close_path },
     /*transformation.c*/
     { "translate", _cairo_translate },
     { "scale", _cairo_scale },

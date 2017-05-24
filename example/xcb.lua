@@ -18,5 +18,28 @@ conn:mapWindow(wid)
 conn:flush()
 
 local visual = assert(conn:findVisual(screen.rootVisual))
-print(visual)
 local surface = Cairo.xcbSurfaceCreate(conn, wid, visual, 150, 150)
+local cr = surface:createContext()
+conn:flush()
+--while true do
+--local evt = conn:waitForEvent()
+--if (evt:getResonseType() == Cairo.XcbDefines.Expose) then
+cr:setSourceRgb(0.0, 1.0, 0.0)
+cr:paint()
+cr:setSourceRgb(1.0, 0.0, 0.0)
+cr:moveTo(0,0)
+cr:lineTo(150,0)
+cr:lineTo(150,150)
+cr:closePath()
+cr:fill()
+
+cr:setSourceRgb(0.0, 0.0, 1.0)
+cr:setLineWidth(20)
+cr:moveTo(0,150)
+cr:lineTo(150,0)
+cr:stroke()
+surface:flush()
+--break
+--end
+conn:flush()
+--end

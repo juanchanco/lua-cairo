@@ -217,7 +217,7 @@ int _cairo_line_to(lua_State* L) {
     double x = (double) luaL_checknumber(L, 2);
     double y = (double) luaL_checknumber(L, 3);
     cairo_line_to(cr, x, y);
-    return commonPush(L, "b", 1);
+    return 0;
 }
 
 
@@ -271,7 +271,7 @@ int _cairo_arc(lua_State* L) {
     double angle1 = (double) luaL_checknumber(L, 5);
     double angle2 = (double) luaL_checknumber(L, 6);
     cairo_arc(cr, xc, yc, radius, angle1, angle2);
-    return commonPush(L, "b", 1);
+    return 0;
 }
 
 
@@ -447,6 +447,11 @@ fail:
 }*/
 
 
+int _cairo_close_path(lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
+    cairo_close_path(cr);
+    return 0;
+}
 /*static int _cairo_close_path(lua_State* L) {
   int SWIG_arg = 0;
   cairo_t *arg1 = (cairo_t *) 0 ;

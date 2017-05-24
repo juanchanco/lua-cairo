@@ -45,6 +45,7 @@ const CommonEnum XcbDefines[] = {
     { "CopyFromParent", XCB_COPY_FROM_PARENT },
     { "CurrentTime", XCB_CURRENT_TIME },
     { "NoSymbol", XCB_NO_SYMBOL },
+    { "Expose", XCB_EXPOSE },
     { NULL, -1 }
 };
 static xcb_visualtype_t *find_visual(xcb_connection_t *c, xcb_visualid_t visual) {
@@ -180,6 +181,12 @@ static int _xcb_flush(lua_State* L) {
     return 0;
 };
 
+/*NOTE: this is blocking*/
+static int _xcb_wait_for_event(lua_State* L) {
+    xcb_connection_t *conn = commonGetAs(L, 1, XcbConnectionName, xcb_connection_t *);
+    xcb_generic_event_t* evt = xcb_wait_for_event(conn);
+    return commonPush(L, "p", XcbEventName, evt);
+}
 
 static int _xcb_disconnect(lua_State* L) {
     printf("GC: xcb_disconnect\n");
@@ -202,6 +209,7 @@ static const luaL_Reg methods[] = {
     { "createWindow", _xcb_create_window },
     { "mapWindow", _xcb_map_window },
     { "flush", _xcb_flush },
+    { "waitForEvent", _xcb_wait_for_event },
     { "createScreen", _xcb_create_screen },
     { "findVisual", _find_visual },
     { NULL, NULL }
@@ -214,17 +222,51 @@ static const luaL_Reg metamethods[] = {
 };
 
 
+const CommonObject XcbConnection = {
+    "XcbConnection",
+    methods,
+    metamethods
+};
+static int evt_response_type(lua_State* L) {
+    xcb_generic_event_t *evt = commonGetAs(L, 1, XcbEventName, xcb_generic_event_t *);
+    return commonPush(L, "i", evt->response_type & ~0x80);
+};
+static int evt_count(lua_State* L) {
+    xcb_generic_event_t *evt = commonGetAs(L, 1, XcbEventName, xcb_generic_event_t *);
+    /*TODO: flesh out event object*/
+    return commonPush(L, "i", ((xcb_expose_event_t *) evt)->count);
+};
+static int _free_event(lua_State* L) {
+    xcb_generic_event_t *evt = commonGetAs(L, 1, XcbEventName, xcb_generic_event_t *);
+    free(evt);
+
+    return 0;
+};
+
+static const luaL_Reg evt_metamethods[] = {
+    { "__gc", _free_event },
+    { NULL, NULL }
+};
+
+static const luaL_Reg evt_methods[] = {
+    { "getResonseType", evt_response_type },
+    { "getCount", evt_count },
+    { NULL, NULL }
+};
+
+const CommonObject XcbEvent = {
+    "XcbEvent",
+    evt_methods,
+    evt_metamethods
+};
+
 const CommonObject XcbVisual = {
     "XcbVisual",
     NULL,
     NULL
 };
 
-const CommonObject XcbConnection = {
-    "XcbConnection",
-    methods,
-    metamethods
-};
+
 /*
 #include <stdlib.h>
 #include <stdio.h>

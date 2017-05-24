@@ -43,6 +43,7 @@ static int _cairo_image_surface_create_for_data(lua_State* L) {
 static int _cairo_image_surface_get_data(lua_State* L) {
     CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     unsigned char* result = cairo_image_surface_get_data(surface->data);
+    /*TODO: turns out the name will need to be "registered" (CommonBindObjt) */
     return commonPush(L, "p", "Raw", result);
 }
 
@@ -63,15 +64,6 @@ static int _cairo_image_surface_get_height(lua_State* L) {
     CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
     int result = cairo_image_surface_get_height(surface->data);
     return commonPush(L, "i", result);
-}
-static int _cairo_create(lua_State* L) {
-    CommonUserdata* surface = commonGetUserdata(L, 1, ImageSurfaceName);
-    cairo_t* result = cairo_create(surface->data);
-    cairo_status_t status = cairo_status(result);
-    if (status != CAIRO_STATUS_SUCCESS) {
-        return commonPushCairoError(L, status);
-    }
-    return commonPush(L, "p", ContextName, result);
 }
 
 /*TODO: figure out how to make ImageSurface inherit from Surface*/
@@ -97,7 +89,6 @@ const luaL_Reg ImageSurfaceFunctions[] = {
 
 
 static const luaL_Reg methods[] = {
-    { "createContext", _cairo_create },
     { "getData", _cairo_image_surface_get_data },
     { "getFormat", _cairo_image_surface_get_format },
     { "getWidth", _cairo_image_surface_get_width },
