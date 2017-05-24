@@ -29,6 +29,8 @@ set(
         src/surface.c
         src/text.c
         src/transformation.c
+	#TODO: make conditional
+        src/pangocairo.c
 )
 
 configure_file(
@@ -39,6 +41,10 @@ configure_file(
 include_directories(${CMAKE_SOURCE_DIR}/build)
 
 find_package(Cairo REQUIRED)
+#TODO: make conditional
+find_package(Pango REQUIRED)
+find_package(GLIB REQUIRED)
+find_package(Pangocairo REQUIRED)
 
 if (WITH_LUAVER MATCHES "53")
 	find_package(Lua53 REQUIRED)
@@ -74,6 +80,10 @@ include_directories(
 	${CAIRO_INCLUDE_DIRS}
 	${CMAKE_SOURCE_DIR}
 	${LUA_INCLUDES}
+#TODO: make conditional
+	${GLIB_INCLUDE_DIRS}
+	${PANGO_INCLUDE_DIRS}
+	${PANGOCAIRO_INCLUDE_DIRS}
 )
 
 if (WIN32)
@@ -103,6 +113,10 @@ target_link_libraries(
         common
 	${CAIRO_LIBRARIES}
 	${LUA_LIBRARIES}
+	#TODO: Make conditioonal
+	${GLIB_LIBRARIES}
+	${PANGO_LIBRARIES}
+	${PANGOCAIRO_LIBRARIES}
 )
 
 install(
