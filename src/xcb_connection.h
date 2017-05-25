@@ -18,5 +18,6 @@ extern const CommonEnum XcbConnectionError[];
 extern const CommonEnum XcbWindowClass[];
 extern const CommonEnum XcbCW[];
 extern const CommonEnum XcbDefines[];
+extern const CommonEnum XcbEventMask[];
 
 #endif /* !_XCB_CONNECTION_ */

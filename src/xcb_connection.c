@@ -49,6 +49,13 @@ const CommonEnum XcbDefines[] = {
     { "KeyPress", XCB_KEY_PRESS },
     { NULL, -1 }
 };
+const CommonEnum XcbEventMask[] = {
+    { "Exposure", XCB_EVENT_MASK_EXPOSURE },
+    { "Key_press", XCB_EVENT_MASK_KEY_PRESS },
+    { "Button_press", XCB_EVENT_MASK_BUTTON_PRESS },
+    { NULL, -1 }
+};
+
 static xcb_visualtype_t *find_visual(xcb_connection_t *c, xcb_visualid_t visual) {
     xcb_screen_iterator_t screen_iter = xcb_setup_roots_iterator(xcb_get_setup(c));
 
@@ -110,6 +117,7 @@ static int _xcb_connect(lua_State* L) {
 static int _xcb_create_screen(lua_State* L) {
     xcb_connection_t *conn = commonGetAs(L, 1, XcbConnectionName, xcb_connection_t *);
     xcb_screen_t *screen = xcb_setup_roots_iterator(xcb_get_setup(conn)).data;
+    /*TODO: maybe have an object with getters/setters instead*/
     lua_newtable(L);
     tableSetInt(L, -1, "root", screen->root);
     tableSetInt(L, -1, "defaultColormap", screen->default_colormap);
@@ -150,18 +158,21 @@ static int _xcb_create_window(lua_State* L) {
     /*TODO: check for zero?*/
     uint16_t width = (uint16_t) tableGetInt(L, 2, "width");
     uint16_t height = (uint16_t) tableGetInt(L, 2, "height");
-    /*NOTE: border must be 0 if class is InputOnly*/
+    /*NOTE: border must be 0 if class is InputOnly
+     * maybe have different methods for creating each class 
+     * (and/or a warning that border is ignored for InputOnly) */
     uint16_t border = (uint16_t) tableGetInt(L, 2, "border");
     /*TODO: check for zero*/
     uint16_t class = (uint16_t) tableGetInt(L, 2, "class");
     /*TODO: check for zero*/
     uint32_t visual = (uint32_t) tableGetInt(L, 2, "visual");
     uint32_t value_mask = (uint32_t) tableGetEnum(L, 2, "value_mask");
+    value_mask = XCB_GC_BACKGROUND | XCB_GC_GRAPHICS_EXPOSURES;
     /*TODO: figure this out. its const uint32_t* (list) */
     /*uint32_t mask = (uint32_t) tableGetInt(L, 2, "mask");*/
     uint32_t mask[2];
     mask[0] = 1;
-    mask[1] = XCB_EVENT_MASK_EXPOSURE;
+    mask[1] = XCB_EVENT_MASK_EXPOSURE | XCB_EVENT_MASK_KEY_PRESS | XCB_EVENT_MASK_BUTTON_PRESS ;
     /*TODO: what to do with void cookie */
     xcb_create_window(conn, depth, wid, parent,
             x, y, width, height, border,

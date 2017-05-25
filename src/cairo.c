@@ -57,6 +57,7 @@ static const struct {
     { "XcbWindowClass", XcbWindowClass },
     { "XcbCW", XcbCW },
     { "XcbDefines", XcbDefines },
+    { "XcbDefines", XcbEventMask },
     { NULL, NULL }
 };
 
