@@ -46,6 +46,7 @@ const CommonEnum XcbDefines[] = {
     { "CurrentTime", XCB_CURRENT_TIME },
     { "NoSymbol", XCB_NO_SYMBOL },
     { "Expose", XCB_EXPOSE },
+    { "KeyPress", XCB_KEY_PRESS },
     { NULL, -1 }
 };
 static xcb_visualtype_t *find_visual(xcb_connection_t *c, xcb_visualid_t visual) {
@@ -142,7 +143,7 @@ static int _xcb_create_window(lua_State* L) {
     /*NOTE: if missing will be 0 with is CopyFromParent */
     uint8_t depth = (uint8_t) tableGetInt(L, 2, "depth");
     /*TODO: check for zero*/
-    uint32_t wid = (uint32_t) tableGetInt(L, 2, "wid");
+    uint32_t wid = (uint32_t) tableGetInt(L, 2, "window");
     uint32_t parent = (uint32_t) tableGetInt(L, 2, "parent");
     int16_t x = (int16_t) tableGetInt(L, 2, "x");
     int16_t y = (int16_t) tableGetInt(L, 2, "y");

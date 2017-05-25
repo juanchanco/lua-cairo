@@ -11,7 +11,7 @@ local params = {
   height = 150,
   class = Cairo.XcbWindowClass.InputOutput,
   visual = screen.rootVisual,
-  visual_mask = {Cairo.XcbCW.OverrideRedirect, Cairo.XcbCW.EventMask }
+  value_mask = {Cairo.XcbCW.OverrideRedirect, Cairo.XcbCW.EventMask }
 }
 conn:createWindow(params)
 conn:mapWindow(wid)
@@ -21,9 +21,9 @@ local visual = assert(conn:findVisual(screen.rootVisual))
 local surface = Cairo.xcbSurfaceCreate(conn, wid, visual, 150, 150)
 local cr = surface:createContext()
 conn:flush()
---while true do
---local evt = conn:waitForEvent()
---if (evt:getResonseType() == Cairo.XcbDefines.Expose) then
+while true do
+local evt = conn:waitForEvent()
+if (evt:getResonseType() == Cairo.XcbDefines.Expose) then
 cr:setSourceRgb(0.0, 1.0, 0.0)
 cr:paint()
 cr:setSourceRgb(1.0, 0.0, 0.0)
@@ -39,7 +39,8 @@ cr:moveTo(0,150)
 cr:lineTo(150,0)
 cr:stroke()
 surface:flush()
---break
---end
+elseif (evt:getResonseType() == Cairo.XcbDefines.KeyPress) then
+  break
+end
 conn:flush()
---end
+end
