@@ -27,7 +27,6 @@ static const struct {
     { SurfaceFunctions },
     { ImageSurfaceFunctions },
     { ContextFunctions },
-    { XcbConnectionFunctions },
     { XcbSurfaceFunctions },
     { NULL }
 };
@@ -52,12 +51,6 @@ static const struct {
     /* surface */
     { "Content", CairoContent },
     { "SurfaceType", CairoSurfaceType },
-    /* xcb */
-    { "XcbConnectionError", XcbConnectionError },
-    { "XcbWindowClass", XcbWindowClass },
-    { "XcbCW", XcbCW },
-    { "XcbDefines", XcbDefines },
-    { "XcbDefines", XcbEventMask },
     { NULL, NULL }
 };
 
@@ -68,9 +61,6 @@ static const struct {
     { &Surface },
     /*{ &ImageSurface },*/
     { &Context },
-    { &XcbConnection },
-    { &XcbVisual },
-    { &XcbEvent },
     { NULL }
 };
 

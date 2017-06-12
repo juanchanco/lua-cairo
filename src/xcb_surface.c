@@ -3,14 +3,15 @@
 #include <cairo-xcb.h>
 #include <xcb/xcb.h>
 #include "context.h"
-#include "xcb_connection.h"
+/*TODO: figure out a better way to ingrate these libraries*/
+/*#include "../lua-xcb/src/connection.h"*/
 #include "xcb_surface.h"
 
 /*cairo_surface_t * 	cairo_xcb_surface_create ()*/
 static int _cairo_xcb_surface_create(lua_State* L) {
-    xcb_connection_t *conn = commonGetAs(L, 1, XcbConnectionName, xcb_connection_t *);
+    xcb_connection_t *conn = commonGetAs(L, 1, "Connection", xcb_connection_t *);
     int window = luaL_checkinteger(L, 2);
-    xcb_visualtype_t *visual = commonGetAs(L, 3, XcbVisualName, xcb_visualtype_t *);
+    xcb_visualtype_t *visual = commonGetAs(L, 3, "Visual", xcb_visualtype_t *);
     int width = luaL_checkinteger(L, 4);
     int height = luaL_checkinteger(L, 5);
     cairo_surface_t* result =

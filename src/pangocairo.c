@@ -1,7 +1,10 @@
 #include "context.h"
 #include "pangocairo.h"
 
-/*PangoFontMap * 	pango_cairo_font_map_get_default ()*/
+int _pango_cairo_font_map_get_default (lua_State* L) {
+    PangoFontMap* result = pango_cairo_font_map_get_default();
+    return commonPush(L, "p", "FontMap", result);
+}
 /*void 	pango_cairo_font_map_set_default ()*/
 /*PangoFontMap * 	pango_cairo_font_map_new ()*/
 /*PangoFontMap * 	pango_cairo_font_map_new_for_font_type ()*/

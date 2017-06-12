@@ -31,7 +31,6 @@ set(
         src/transformation.c
         #TODO: make conditional
         src/pangocairo.c
-        src/xcb_connection.c
         src/xcb_surface.c
 )
 
