@@ -69,7 +69,7 @@ static const luaL_Reg metamethods[] = {
 
 
 const CommonObject XcbSurface = {
-    "Surface.Xcb",
+    "Cairo.Surface.Xcb",
     methods,
     metamethods
 };

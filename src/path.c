@@ -609,7 +609,7 @@ static const luaL_Reg metamethods[] = {
 
 
 const CommonObject Path = {
-    "CairoPath",
+    "Cairo.Path",
     methods,
     metamethods
 };

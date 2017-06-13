@@ -1566,7 +1566,7 @@ const luaL_Reg ContextMetamethods[] = {
 };
 
 const CommonObject Context = {
-    "CairoContext",
+    "Cairo.Context",
     ContextMethods,
     ContextMetamethods
 };

@@ -104,7 +104,7 @@ static const luaL_Reg metamethods[] = {
 
 
 const CommonObject ImageSurface = {
-    "Surface.Image",
+    "Cairo.Surface.Image",
     methods,
     metamethods
 };
