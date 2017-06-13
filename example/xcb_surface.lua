@@ -5,15 +5,15 @@ local screen = conn:createScreen()
 local wid = conn:generateId()
 local params = {
   window = wid,
-  parent = screen:getRoot(),
+  parent = screen.root,
   x = 20,
   y = 20,
   width = 150,
   height = 150,
   class = XCB.WindowClass.InputOutput,
-  visual = screen:getRootVisual(),
+  visual = screen.root_visual,
   mask = { XCB.CW.BackPixel, XCB.CW.EventMask },
-  value0 = screen:getWhitePixel(),
+  value0 = screen.white_pixel,
   value1 = { XCB.EventMask.Exposure, XCB.EventMask.KeyPress }
 }
 conn:createWindow(params)

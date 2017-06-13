@@ -2,6 +2,7 @@
 #ifdef CAIRO_HAS_XCB_SURFACE
 #include <cairo-xcb.h>
 #include <xcb/xcb.h>
+#include "common/table.h"
 #include "context.h"
 /*TODO: figure out a better way to ingrate these libraries*/
 #include "../lua-xcb/src/lua_xcb.h"
@@ -27,8 +28,8 @@ static xcb_visualtype_t *find_visual(xcb_connection_t *c, xcb_visualid_t visual)
 static int _cairo_xcb_surface_create(lua_State* L) {
     xcb_connection_t *conn = commonGetAs(L, 1, ConnectionName, xcb_connection_t *);
     int window = luaL_checkinteger(L, 2);
-    xcb_screen_t *screen = commonGetAs(L, 3, ScreenName, xcb_screen_t *);
-    xcb_visualtype_t* visual = find_visual(conn, screen->root_visual);
+    int root_visual = tableGetInt(L, 3, "root_visual");
+    xcb_visualtype_t* visual = find_visual(conn, root_visual);
     if (!visual) {
         return commonPushError(L, "find_visual failed");
     }
