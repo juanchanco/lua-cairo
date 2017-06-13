@@ -1559,9 +1559,7 @@ const luaL_Reg ContextMethods[] = {
 };
 
 const luaL_Reg ContextMetamethods[] = {
-    /*{ "__eq", l_texture_eq },*/
     { "__gc", _cairo_destroy },
-    /*{ "__tostring", l_texture_tostring },*/
     { NULL, NULL }
 };
 

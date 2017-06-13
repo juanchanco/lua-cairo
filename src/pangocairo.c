@@ -1,9 +1,10 @@
 #include "context.h"
 #include "pangocairo.h"
+#include "../lua-pango/src/lua_pango.h"
 
 int _pango_cairo_font_map_get_default (lua_State* L) {
     PangoFontMap* result = pango_cairo_font_map_get_default();
-    return commonPush(L, "p", "FontMap", result);
+    return commonPush(L, "p", PangoFontMapName, result);
 }
 /*void 	pango_cairo_font_map_set_default ()*/
 /*PangoFontMap * 	pango_cairo_font_map_new ()*/
@@ -25,12 +26,12 @@ int _pango_cairo_font_map_get_default (lua_State* L) {
 int _pango_cairo_create_layout (lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     PangoLayout* result = pango_cairo_create_layout(cr);
-    return commonPush(L, "p", "Layout", result);
+    return commonPush(L, "p", PangoLayoutName, result);
 }
 
 int _pango_cairo_update_layout (lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
-    PangoLayout *layout = commonGetAs(L, 2, "Layout", PangoLayout *);
+    PangoLayout *layout = commonGetAs(L, 2, PangoLayoutName, PangoLayout *);
     pango_cairo_update_layout(cr, layout);
     return commonPush(L, "b", 1);
 }
@@ -39,7 +40,7 @@ int _pango_cairo_update_layout (lua_State* L) {
 /*void 	pango_cairo_show_layout_line ()*/
 int _pango_cairo_show_layout (lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
-    PangoLayout *layout = commonGetAs(L, 2, "Layout", PangoLayout *);
+    PangoLayout *layout = commonGetAs(L, 2, PangoLayoutName, PangoLayout *);
     pango_cairo_show_layout(cr, layout);
     return commonPush(L, "b", 1);
 }

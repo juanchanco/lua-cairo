@@ -6,7 +6,7 @@ int _cairo_translate(lua_State* L) {
     double tx = (double) luaL_checknumber(L, 2);
     double ty = (double) luaL_checknumber(L, 3);
     cairo_translate(cr, tx, ty);
-    return commonPush(L, "b", 1);
+    return 0;
 }
 
 
@@ -15,41 +15,15 @@ int _cairo_scale(lua_State* L) {
     double sx = (double) luaL_checknumber(L, 2);
     double sy = (double) luaL_checknumber(L, 3);
     cairo_scale(cr, sx, sy);
-    return commonPush(L, "b", 1);
+    return 0;
 }
 
 int _cairo_rotate(lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     double deg = (double) luaL_checknumber(L, 2);
     cairo_rotate(cr, deg);
-    return commonPush(L, "b", 1);
+    return 0;
 }
-
-
-/*static int _cairo_rotate(lua_State* L) {
-  int SWIG_arg = 0;
-  cairo_t *arg1 = (cairo_t *) 0 ;
-  double arg2 ;
-  
-  SWIG_check_num_args("cairo_rotate",2,2)
-  if(!SWIG_isptrtype(L,1)) SWIG_fail_arg("cairo_rotate",1,"cairo_t *");
-  if(!lua_isnumber(L,2)) SWIG_fail_arg("cairo_rotate",2,"double");
-  
-  if (!SWIG_IsOK(SWIG_ConvertPtr(L,1,(void**)&arg1,SWIGTYPE_p__cairo,0))){
-    SWIG_fail_ptr("cairo_rotate",1,SWIGTYPE_p__cairo);
-  }
-  
-  arg2 = (double)lua_tonumber(L, 2);
-  cairo_rotate(arg1,arg2);
-  
-  return SWIG_arg;
-  
-  if(0) SWIG_fail;
-  
-fail:
-  lua_error(L);
-  return SWIG_arg;
-}*/
 
 
 /*static int _cairo_transform(lua_State* L) {

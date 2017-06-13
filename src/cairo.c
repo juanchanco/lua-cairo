@@ -58,7 +58,6 @@ static const struct {
 } objects[] = {
     { &Context },
     { &Surface },
-    /*{ &ImageSurface },*/
     { &Context },
     { NULL }
 };
@@ -81,6 +80,7 @@ luaopen_Cairo(lua_State *L)
         commonBindObject(L, objects[i].object);
 
     commonExtendObject(L, &Surface, &ImageSurface);
+    /*TODO: make conditional*/
     commonExtendObject(L, &Surface, &XcbSurface);
 
     return 1;
