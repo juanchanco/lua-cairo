@@ -13,7 +13,6 @@
 #include "surface.h"
 #include "image_surface.h"
 /*TODO: make conditional*/
-#include "xcb_connection.h"
 #include "xcb_surface.h"
 
 
