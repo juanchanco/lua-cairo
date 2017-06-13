@@ -25,7 +25,7 @@ local cr = surface:createContext()
 conn:flush()
 while true do
   local evt = conn:waitForEvent()
-  if (evt:getResonseType() == XCB.EventType.Expose) then
+  if (evt.response_type == XCB.EventType.Expose) then
     cr:setSourceRgb(0.0, 1.0, 0.0)
     cr:paint()
     cr:setSourceRgb(1.0, 0.0, 0.0)
@@ -41,7 +41,7 @@ while true do
     cr:lineTo(150,0)
     cr:stroke()
     surface:flush()
-  elseif (evt:getResonseType() == XCB.EventType.KeyPress) then
+  elseif (evt.response_type == XCB.EventType.KeyPress) then
     break
   end
   conn:flush()
