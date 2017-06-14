@@ -10,7 +10,6 @@
 
 /*cairo_scaled_font_t * 	cairo_scaled_font_create ()*/
 /*cairo_scaled_font_t * 	cairo_scaled_font_reference ()*/
-/*void 	cairo_scaled_font_destroy ()*/
 static int _cairo_scaled_font_destroy(lua_State *L) {
     cairo_scaled_font_t* font = commonGetAs(L, 1, ScaledFontName, cairo_scaled_font_t *);
     cairo_scaled_font_destroy(font);
