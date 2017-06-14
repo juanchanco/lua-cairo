@@ -2,7 +2,7 @@
 #include "pangocairo.h"
 #include "../lua-pango/src/lua_pango.h"
 
-int _pango_cairo_font_map_get_default (lua_State* L) {
+static int _pango_cairo_font_map_get_default (lua_State* L) {
     PangoFontMap* result = pango_cairo_font_map_get_default();
     return commonPush(L, "p", PangoFontMapName, result);
 }
@@ -33,7 +33,7 @@ int _pango_cairo_update_layout (lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     PangoLayout *layout = commonGetAs(L, 2, PangoLayoutName, PangoLayout *);
     pango_cairo_update_layout(cr, layout);
-    return commonPush(L, "b", 1);
+    return 0;
 }
 /*void 	pango_cairo_show_glyph_string ()*/
 /*void 	pango_cairo_show_glyph_item ()*/
@@ -42,7 +42,7 @@ int _pango_cairo_show_layout (lua_State* L) {
     cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
     PangoLayout *layout = commonGetAs(L, 2, PangoLayoutName, PangoLayout *);
     pango_cairo_show_layout(cr, layout);
-    return commonPush(L, "b", 1);
+    return 0;
 }
 /*void 	pango_cairo_show_error_underline ()*/
 /*void 	pango_cairo_glyph_string_path ()*/
@@ -50,3 +50,7 @@ int _pango_cairo_show_layout (lua_State* L) {
 /*void 	pango_cairo_layout_path ()*/
 /*void 	pango_cairo_error_underline_path ()*/
 
+const luaL_Reg PangoCairoFunctions[] = {
+    { "getDefaultFontMap", _pango_cairo_font_map_get_default },
+    { NULL, NULL }
+};

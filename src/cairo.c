@@ -13,6 +13,7 @@
 #include "surface.h"
 #include "image_surface.h"
 /*TODO: make conditional*/
+#include "pangocairo.h"
 #include "xcb_surface.h"
 
 
@@ -26,6 +27,8 @@ static const struct {
     { SurfaceFunctions },
     { ImageSurfaceFunctions },
     { ContextFunctions },
+    /*TODO: make conditional*/
+    { PangoCairoFunctions },
     { XcbSurfaceFunctions },
     { NULL }
 };

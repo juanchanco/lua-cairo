@@ -1,0 +1,6 @@
+local Pango = require("Pango")
+local Cairo = require("Cairo")
+local map = Cairo.getDefaultFontMap()
+local families = map:listFamilies()
+print(#families)
+--print(families[0])
