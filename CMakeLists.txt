@@ -24,7 +24,10 @@ set(
         src/cairo.c
         src/context.c
         src/image_surface.c
+        src/font_face.c
+        src/font_options.c
         src/path.c
+        src/scaled_font.c
         #src/png.c
         src/surface.c
         src/text.c

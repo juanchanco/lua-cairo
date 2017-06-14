@@ -85,7 +85,6 @@ static int _cairo_surface_flush(lua_State* L) {
 /*cairo_surface_t * 	cairo_surface_map_to_image ()*/
 /*void 	cairo_surface_unmap_image ()*/
 
-/*TODO: inheritence*/
 #ifdef CAIRO_HAS_PNG_FUNCTIONS
 int _cairo_surface_write_to_png (lua_State* L) {
     CommonUserdata *surface = commonGetUserdataBase(L, 1, SurfaceName);
@@ -101,8 +100,6 @@ int _cairo_surface_write_to_png (lua_State* L) {
 
 static int _cairo_surface_destroy(lua_State* L) {
     CommonUserdata *surface = commonGetUserdataBase(L, 1, SurfaceName);
-    /*TODO: check for null*/
-    /*printf("GC: cairo_surface_destroy (Surface)\n");*/
     /*if (surface->mustdelete) {*/
     cairo_surface_finish(surface->data);
     cairo_surface_destroy(surface->data);

@@ -10,6 +10,9 @@
 #include "context.h"
 #include "path.h"
 #include "text.h"
+#include "font_face.h"
+#include "font_options.h"
+#include "scaled_font.h"
 #include "surface.h"
 #include "image_surface.h"
 /*TODO: make conditional*/
@@ -53,6 +56,12 @@ static const struct {
     /* surface */
     { "Content", CairoContent },
     { "SurfaceType", CairoSurfaceType },
+    /* font_face */
+    { "FontType", CairoFontType },
+    /* font_options */
+    { "SubPixelOrder", CairoSubPixelOrder },
+    { "HintMetrics", CairoHintMetrics },
+    { "HintStyle", CairoHintStyle },
     { NULL, NULL }
 };
 
@@ -62,6 +71,9 @@ static const struct {
     { &Context },
     { &Surface },
     { &Context },
+    { &FontFace },
+    { &FontOptions },
+    { &ScaledFont },
     { NULL }
 };
 
