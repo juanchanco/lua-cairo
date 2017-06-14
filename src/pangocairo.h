@@ -9,6 +9,7 @@
 
 extern int _pango_cairo_create_layout (lua_State* L);
 extern int _pango_cairo_update_layout (lua_State* L);
+extern int _pango_cairo_show_glyph_string (lua_State* L);
 extern int _pango_cairo_show_layout (lua_State* L);
 
 extern const luaL_Reg PangoCairoFunctions[];

@@ -21,7 +21,7 @@ local draw_text = function(cr)
     local angle = (360. * i) / N_WORDS
     cr:save()
     local red = (1 + math.cos ((angle - 60) * G_PI / 180.)) / 2
-    cr:setSourceRgb(red, 0, 1.0 - red)
+    cr:setSourceRgb({r=red, g=0, b=1.0 - red})
     cr:rotate(angle * G_PI / 180.)
     cr:updatePangoLayout(layout)
 
@@ -37,7 +37,7 @@ local filename = "test.png"
 local surface = Cairo.imageSurfaceCreate(Cairo.Format.Argb32, 2 * RADIUS, 2 * RADIUS)
 local cr = surface:createContext()
 cr:scale(1 * TWEAKABLE_SCALE, 1 * TWEAKABLE_SCALE)
-cr:setSourceRgb(1.0, 1.0, 1.0)
+cr:setSourceRgb({r=1.0, g=1.0, b=1.0})
 cr:paint()
 draw_text (cr)
 surface:writeToPng(filename)

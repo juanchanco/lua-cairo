@@ -16,6 +16,12 @@ static int _pango_cairo_font_map_get_default (lua_State* L) {
 /*PangoContext * 	pango_cairo_font_map_create_context (PangoCairoFontMap *fontmap)*/
 /*cairo_scaled_font_t * 	pango_cairo_font_get_scaled_font (PangoCairoFont *font)*/
 /*void 	pango_cairo_context_set_resolution (PangoContext *context, double dpi)*/
+static int _pango_cairo_context_set_resolution (lua_State* L) {
+    PangoContext *context = commonGetAs(L, 1, PangoContextName, PangoContext *);
+    double dpi = luaL_checknumber(L, 2);
+    pango_cairo_context_set_resolution(context, dpi);
+    return 0;
+}
 /*double 	pango_cairo_context_get_resolution (PangoContext *context)*/
 /*void 	pango_cairo_context_set_font_options (PangoContext *context, const cairo_font_options_t *options)*/
 /*const cairo_font_options_t * 	pango_cairo_context_get_font_options (PangoContext *context)*/
@@ -39,6 +45,13 @@ int _pango_cairo_update_layout (lua_State* L) {
 /*void 	pango_cairo_show_glyph_string (cairo_t *cr,
                                PangoFont *font,
                                PangoGlyphString *glyphs)*/
+int _pango_cairo_show_glyph_string (lua_State* L) {
+    cairo_t *cr = commonGetAs(L, 1, ContextName, cairo_t *);
+    PangoFont *font = commonGetAs(L, 2, PangoFontName, PangoFont *);
+    PangoGlyphString *glyphs = commonGetAs(L, 2, PangoGlyphStringName, PangoGlyphString *);
+    pango_cairo_show_glyph_string(cr, font, glyphs);
+    return 0;
+}
 /*void 	pango_cairo_show_glyph_item (cairo_t *cr,
                              const char *text,
                              PangoGlyphItem *glyph_item)*/
@@ -70,5 +83,6 @@ int _pango_cairo_show_layout (lua_State* L) {
 
 const luaL_Reg PangoCairoFunctions[] = {
     { "getDefaultFontMap", _pango_cairo_font_map_get_default },
+    { "pangoContextSetResolution", _pango_cairo_context_set_resolution },
     { NULL, NULL }
 };
