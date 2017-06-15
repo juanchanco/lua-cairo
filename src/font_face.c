@@ -48,7 +48,7 @@ static const luaL_Reg metamethods[] = {
 };
 
 const CommonObject FontFace = {
-    "Pango.FontFace",
+    "Cairo.FontFace",
     methods,
     metamethods
 };

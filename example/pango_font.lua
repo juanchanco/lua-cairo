@@ -1,4 +1,4 @@
-require("Pango")
+local Pango = require("Pango")
 local Cairo = require("Cairo")
 local map = Cairo.getDefaultFontMap()
 local families = map:listFamilies()
@@ -16,7 +16,6 @@ local iter = function(m)
   end
   return f
 end
-print(families)
 for _,v in iter(families) do
   print(v)
   local faces = v:listFaces()
@@ -29,7 +28,7 @@ for _,v in iter(families) do
     local sizes = f:listSizes()
     if (sizes) then
       for _,s in ipairs(sizes) do
-        print(string.format("      Size: %i", s))
+        print(string.format("      Size: %f", Pango.unitsToDouble(s)))
       end
     end
   end
