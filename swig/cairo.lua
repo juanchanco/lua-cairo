@@ -9,18 +9,21 @@ local context_metatable = {
     cairo.cairo_destroy(self)
   end,
   __index = {
-    setSourceRgb = function(self, params)
-      local r = getWDefault(params.r, 0.0)
-      local g = getWDefault(params.g, 0.0)
-      local b = getWDefault(params.b, 0.0)
+    setSourceRgb = function(self, r, g, b)
+      --local r = getWDefault(params.r, 0.0)
+      --local g = getWDefault(params.g, 0.0)
+      --local b = getWDefault(params.b, 0.0)
       cairo.cairo_set_source_rgb(self, r, g, b)
     end,
-    setSourceRgba = function(self, params)
-      local r = getWDefault(params.r, 0.0)
-      local g = getWDefault(params.g, 0.0)
-      local b = getWDefault(params.b, 0.0)
-      local a = getWDefault(params.a, 0.0)
+    setSourceRgba = function(self, r, g, b, a)
+      --local r = getWDefault(params.r, 0.0)
+      --local g = getWDefault(params.g, 0.0)
+      --local b = getWDefault(params.b, 0.0)
+      --local a = getWDefault(params.a, 0.0)
       cairo.cairo_set_source_rgb(self, r, g, b, a)
+    end,
+    setLineWidth = function(self, w)
+      cairo.cairo_set_line_width(self, w)
     end,
     moveTo = function(self, x, y)
       cairo.cairo_move_to(self, x, y)
@@ -45,8 +48,9 @@ local context_metatable = {
 
 local surface_metatable = {
   __gc = function(self)
-    cairo.cairo_surface_finish(self)
-    cairo.cairo_surface_destroy(self)
+    -- TODO: when/how to call these?
+    --cairo.cairo_surface_finish(self)
+    --cairo.cairo_surface_destroy(self)
   end,
   __index = {
     cairoCreate = function(self)

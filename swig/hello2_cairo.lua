@@ -15,9 +15,36 @@ local window = conn:createWindow({
 })
 conn:mapWindow(window)
 conn:flush()
-print(screen.root_visual)
 local visual = cairo.findVisual(conn, screen.root_visual)
 local surface = cairo.xcbSurfaceCreate(conn, window.id, visual, 150, 150)
 local cr = surface:cairoCreate()
 conn:flush()
+
+local e = conn:waitForEvent()
+while (e) do
+  local response_type = e.response_type
+  if (response_type == xcb.EventType.Expose) then
+    cr:setSourceRgb(0.0, 1.0, 0.0)
+    cr:paint()
+    cr:setSourceRgb(1.0, 0.0, 0.0)
+    cr:moveTo(0,0)
+    cr:lineTo(150, 0)
+    cr:lineTo(150, 150)
+    cr:closePath()
+    cr:fill()
+
+    cr:setSourceRgb(0.0, 0.0, 1.0)
+    cr:setLineWidth(20)
+    cr:moveTo(0, 150)
+    cr:lineTo(150, 0)
+    cr:stroke()
+    surface:flush()
+    conn:flush()
+  elseif (response_type == xcb.EventType.KeyPress) then
+    break
+  elseif (response_type == 0) then
+    print(string.format("Event error code:%i", e.error_code))
+  end
+  e = conn:waitForEvent()
+end
 conn:disconnect()
