@@ -11,6 +11,9 @@
 %typemap(in) xcb_drawable_t {
   $1 = (uint32_t) lua_tointeger(L, $input);
 }
+%typemap(in) xcb_visualid_t {
+  $1 = (uint32_t) lua_tointeger(L, $input);
+}
 %include <cairo-xcb.h>
 %inline %{
 xcb_visualtype_t *find_visual(xcb_connection_t *c, xcb_visualid_t visual) {
