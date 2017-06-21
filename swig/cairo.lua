@@ -87,7 +87,7 @@ local context_metatable = {
       cairo.cairo_show_text(self, text);
     end,
     showGlyphs = function(self, glyphs)
-      cairo.cairo_show_glyphs(self, glyphs, #glyphs);
+      cairo.cairo_show_glyphs(self, glyphs.glyphs, #glyphs);
     end,
   }
 }
@@ -179,7 +179,6 @@ local font_face_metatable = {
 
 local fontFaceCreateForFtFace = function(ft_face)
   local face = cairo_ft.cairo_ft_font_face_create_for_ft_face(ft_face, 0)
-  --TODO can this riff be factored out? (same as for context)
   local status = cairo.cairo_font_face_status(face)
   return checkSetMetatable(status, face, font_face_metatable)
 end
@@ -191,8 +190,12 @@ end
 local newGlyph = function() return cairo.cairo_glyph_t() end
 local newGlyphsArray = function(length)
   local cairo_glyphs = cairo.new_glyphs(length)
+  local arr = {
+    glyphs = cairo_glyphs
+  }
   -- NOTE: swig has same metatable for this and cairo_glyph_t
   local mt = {}
+  mt.__gc = function(_) cairo.delete_glyphs(cairo_glyphs) end
   mt.__len = function(_) return length end
   mt.__index = function(_, i)
     cairo.glyphs_getitem(cairo_glyphs, i)
@@ -200,8 +203,8 @@ local newGlyphsArray = function(length)
   mt.__newindex = function(_, i, cairo_glyph)
     cairo.glyphs_setitem(cairo_glyphs, i, cairo_glyph)
   end
-  cairo.setmetatable(cairo_glyphs, mt)
-  return cairo_glyphs
+  setmetatable(arr, mt)
+  return arr
 end
 
 return {
