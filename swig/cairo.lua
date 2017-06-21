@@ -48,7 +48,7 @@ local context_metatable = {
       --local g = getWDefault(params.g, 0.0)
       --local b = getWDefault(params.b, 0.0)
       --local a = getWDefault(params.a, 0.0)
-      cairo.cairo_set_source_rgb(self, r, g, b, a)
+      cairo.cairo_set_source_rgba(self, r, g, b, a)
     end,
     setLineWidth = function(self, w)
       cairo.cairo_set_line_width(self, w)
@@ -85,6 +85,9 @@ local context_metatable = {
     end,
     showText = function(self, text)
       cairo.cairo_show_text(self, text);
+    end,
+    showGlyphs = function(self, glyphs)
+      cairo.cairo_show_glyphs(self, glyphs, #glyphs);
     end,
   }
 }
@@ -168,7 +171,7 @@ local font_face_metatable = {
     cairo.cairo_font_face_destroy(self)
   end,
   __index = {
-    fontFaceStatus = function(self)
+    status = function(self)
       cairo.cairo_font_face_status(self)
     end,
   }
@@ -185,6 +188,22 @@ local formatStrideForWidth = function(format, width)
   return cairo.cairo_format_stride_for_width(format, width)
 end
 
+local newGlyph = function() return cairo.cairo_glyph_t() end
+local newGlyphsArray = function(length)
+  local cairo_glyphs = cairo.new_glyphs(length)
+  -- NOTE: swig has same metatable for this and cairo_glyph_t
+  local mt = {}
+  mt.__len = function(_) return length end
+  mt.__index = function(_, i)
+    cairo.glyphs_getitem(cairo_glyphs, i)
+  end
+  mt.__newindex = function(_, i, cairo_glyph)
+    cairo.glyphs_setitem(cairo_glyphs, i, cairo_glyph)
+  end
+  cairo.setmetatable(cairo_glyphs, mt)
+  return cairo_glyphs
+end
+
 return {
   Format = CairoFormat,
   FontSlant = CairoFontSlant,
@@ -194,4 +213,6 @@ return {
   fontFaceCreateForFtFace = fontFaceCreateForFtFace,
   formatStrideForWidth = formatStrideForWidth,
   findVisual = cairo_xcb.find_visual,
+  newGlyphsArray = newGlyphsArray,
+  newGlyph = newGlyph,
 }
