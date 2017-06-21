@@ -43,7 +43,11 @@ while (e) do
   elseif (response_type == xcb.EventType.KeyPress) then
     break
   elseif (response_type == 0) then
-    print(string.format("Event error code:%i", e.error_code))
+    if (e.error_code) then
+      print(string.format("Event error code:%i", e.error_code))
+    else
+      print("Event error code:null")
+    end
   end
   e = conn:waitForEvent()
 end
