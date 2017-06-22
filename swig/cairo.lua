@@ -198,10 +198,10 @@ local newGlyphsArray = function(length)
   mt.__gc = function(_) cairo.delete_glyphs(cairo_glyphs) end
   mt.__len = function(_) return length end
   mt.__index = function(_, i)
-    cairo.glyphs_getitem(cairo_glyphs, i)
+    cairo.glyphs_getitem(cairo_glyphs, i-1)
   end
   mt.__newindex = function(_, i, cairo_glyph)
-    cairo.glyphs_setitem(cairo_glyphs, i, cairo_glyph)
+    cairo.glyphs_setitem(cairo_glyphs, i-1, cairo_glyph)
   end
   setmetatable(arr, mt)
   return arr
