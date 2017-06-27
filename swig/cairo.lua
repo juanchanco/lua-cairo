@@ -32,6 +32,30 @@ local function checkSetMetatable(status, obj, mt)
   end
 end
 
+local font_face_metatable = {
+  __gc = function(self)
+    cairo.cairo_font_face_destroy(self)
+  end,
+  __index = {
+    status = function(self)
+      cairo.cairo_font_face_status(self)
+    end,
+  }
+}
+
+local scaled_font_metatable = {
+  __index = {
+    lockFace = function(self)
+      local face = cairo.cairo_ft_scaled_font_lock_face(self)
+      local status = cairo.cairo_font_face_status(face)
+      return checkSetMetatable(status, face, font_face_metatable)
+    end,
+    unlockFace = function(self)
+      cairo.cairo_ft_scaled_font_unlock_face(self)
+    end,
+  }
+}
+
 local context_metatable = {
   __gc = function(self)
     cairo.cairo_destroy(self)
@@ -74,6 +98,15 @@ local context_metatable = {
     setFontSize = function(self, size)
       cairo.cairo_set_font_size(self, size)
     end,
+    rotate = function(self, d)
+      cairo.cairo_rotate(self, d)
+    end,
+    scale = function(self, dx, dy)
+      cairo.cairo_scale(self, dx, dy)
+    end,
+    translate = function(self, dx, dy)
+      cairo.cairo_translate(self, dx, dy)
+    end,
     setFontFace = function(self, face)
       cairo.cairo_set_font_face(self, face)
     end,
@@ -88,6 +121,17 @@ local context_metatable = {
     end,
     showGlyphs = function(self, glyphs)
       cairo.cairo_show_glyphs(self, glyphs.glyphs, #glyphs);
+    end,
+    getScaledFont = function(self)
+      local scaled_font = cairo.cairo_get_scaled_font(self)
+      local status = cairo.cairo_font_status(scaled_font)
+      return checkSetMetatable(status, scaled_font, scaled_font_metatable)
+    end,
+    save = function(self)
+      cairo.cairo_save(self)
+    end,
+    restore = function(self)
+      cairo.cairo_restore(self)
     end,
   }
 }
@@ -165,17 +209,6 @@ local xcbSurfaceCreate = function(conn, wid, visual, width, height)
   cairo.setmetatable(surface, surface_metatable)
   return surface
 end
-
-local font_face_metatable = {
-  __gc = function(self)
-    cairo.cairo_font_face_destroy(self)
-  end,
-  __index = {
-    status = function(self)
-      cairo.cairo_font_face_status(self)
-    end,
-  }
-}
 
 local fontFaceCreateForFtFace = function(ft_face)
   local face = cairo_ft.cairo_ft_font_face_create_for_ft_face(ft_face, 0)
