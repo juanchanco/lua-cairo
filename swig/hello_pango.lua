@@ -5,7 +5,7 @@ local N_WORDS = 8
 local FONT_WITH_MANUAL_SIZE = "Times new roman,Sans"
 local FONT_SIZE = 36
 local DEVICE_DPI = 72
-local TWEAKABLE_SCALE = 0.1
+--local TWEAKABLE_SCALE = 0.1
 local G_PI = math.pi
 local PANGO_SCALE = 1024
 local draw_text = function(cr)
@@ -50,7 +50,7 @@ local screen = conn:getSetup():setupRootsIterator().data
 local window = conn:createWindow({
   parent=screen.root,
   visual=screen.root_visual,
-  x=20, y=20, w=150, h=150, border=10,
+  x=20, y=20, w=450, h=450, border=10,
   class = xcb.WindowClass.InputOutput,
   mask=xcb.CW.BackPixel | xcb.CW.EventMask,
   value0=screen.white_pixel,
@@ -59,7 +59,7 @@ local window = conn:createWindow({
 conn:mapWindow(window)
 conn:flush()
 local visual = cairo.findVisual(conn, screen.root_visual)
-local surface = cairo.xcbSurfaceCreate(conn, window.id, visual, 150, 150)
+local surface = cairo.xcbSurfaceCreate(conn, window.id, visual, 450, 450)
 local cr = surface:cairoCreate()
 --cr:scale(1 * TWEAKABLE_SCALE, 1 * TWEAKABLE_SCALE)
 conn:flush()
