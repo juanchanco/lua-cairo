@@ -155,7 +155,7 @@ local surface_metatable = {
   __gc = surface_gc,
   __index = surface_methods,
 }
-if (cairo.CAIRO_HAS_PNG_FUNCTIONS > 0) then
+if (cairo.cairo_surface_write_to_png) then
   local writeToPng = function(self, fname)
     local status = cairo.cairo_surface_write_to_png(self, fname)
     return checkReturnVal(status, true)
