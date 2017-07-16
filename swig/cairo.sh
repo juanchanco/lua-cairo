@@ -8,6 +8,7 @@ elif [ "$uname" = "NetBSD" ]; then
 else
         swig=swig3.0
 fi
+export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:${PKG_CONFIG_PATH}"
 $swig -lua `pkg-config --cflags-only-I cairo` swig_cairo.i
 gcc -fPIC `pkg-config --cflags cairo $extra_pc` -c swig_cairo_wrap.c -o swig_cairo_wrap.o
 gcc -shared `pkg-config --cflags --libs cairo $extra_pc` swig_cairo_wrap.o -o swig_cairo.so

@@ -2,12 +2,11 @@
 %{
  #include <cairo.h>
  #include <cairo-features.h>
-#define CAIRO_HAS_XCB_SURFACE 1
  #include <cairo-xcb.h>
  #include <xcb/xcb.h>
 %}
-#define CAIRO_HAS_XCB_SURFACE 1
 %import <cairo.h>
+%import <cairo-features.h>
 %typemap(in) xcb_drawable_t {
   $1 = (uint32_t) lua_tointeger(L, $input);
 }

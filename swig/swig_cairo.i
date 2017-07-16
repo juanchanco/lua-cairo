@@ -4,9 +4,10 @@
 %}
 /*%include <typemaps.i>*/
 /*%apply SWIGTYPE** OUTPUT { cairo_text_extents_t **extents };*/
-#define CAIRO_HAS_PNG_FUNCTIONS 1
+/*#define CAIRO_HAS_PNG_FUNCTIONS 1*/
 %include <carrays.i>
 %array_functions(cairo_glyph_t, glyphs)
+%import <cairo-features.h>
 %include <cairo.h>
 %native(setmetatable) int userdata_set_metatable(lua_State *L);
 %{
